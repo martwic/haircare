@@ -1,7 +1,7 @@
 export const Footer = () => {
     return (
       <footer>
-        <p> © 2023 HairCare - projekt </p>
+        <div> © 2023 HairCare - projekt </div>
       </footer>
     );
   };

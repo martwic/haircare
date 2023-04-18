@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ankiety {
+  id_ankiety         Int                  @id @default(autoincrement())
+  nazwa_ankiety      String               @db.VarChar(128)
+  pytania            pytania[]
+  wypelnienie_ankiet wypelnienie_ankiet[]
+}
+
+model firma {
+  id_firmy    Int        @id @default(autoincrement())
+  nazwa_firmy String     @db.VarChar(128)
+  produkty    produkty[]
+}
+
+model kategoria {
+  id_kategorii    Int        @id @default(autoincrement())
+  nazwa_kategorii String     @db.VarChar(128)
+  produkty        produkty[]
+}
+
+model konta {
+  id_konta         Int          @id @default(autoincrement())
+  login            String       @db.VarChar(64)
+  email            String?      @db.VarChar(64)
+  haslo            String?      @db.VarChar(128)
+  typ_konta_id     Int
+  data_rejestracji DateTime     @db.Date
+  typ_konta        typ_konta    @relation(fields: [typ_konta_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "konta_fk0")
+  uzytkownicy      uzytkownicy?
+}
+
+model oceny_produktow {
+  id_oceny      Int         @id @default(autoincrement())
+  produkt_id    Int
+  uzytkownik_id Int
+  ocena         Int
+  komentarz     String?     @default("NULL")
+  uzytkownicy   uzytkownicy @relation(fields: [uzytkownik_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "oceny_produktow_fk1")
+}
+
+model odpowiedzi {
+  id_odpowiedzi Int     @id @default(autoincrement())
+  id_pytania    Int
+  odpowiedz     String  @db.VarChar(128)
+  pytania       pytania @relation(fields: [id_pytania], references: [id_pytania], onDelete: NoAction, onUpdate: NoAction, map: "odpowiedzi_fk0")
+}
+
+model oferty {
+  id_oferty  Int    @id @default(autoincrement())
+  produkt_id Int
+  link       String @db.VarChar(256)
+}
+
+model produkty {
+  id_produktu  Int       @id @default(autoincrement())
+  nazwa        String    @db.VarChar(128)
+  kategoria_id Int
+  firma_id     Int
+  typ_wlosa_id Int
+  opis         String?
+  sklad        String?
+  firma        firma     @relation(fields: [firma_id], references: [id_firmy], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk0")
+  typ_wlosa    typ_wlosa @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk1")
+  kategoria    kategoria @relation(fields: [kategoria_id], references: [id_kategorii], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk2")
+}
+
+model pytania {
+  id_pytania Int          @id @default(autoincrement())
+  pytanie    String       @db.VarChar(128)
+  id_ankiety Int
+  odpowiedzi odpowiedzi[]
+  ankiety    ankiety      @relation(fields: [id_ankiety], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "pytania_fk0")
+}
+
+model typ_konta {
+  id_typu    Int     @id @default(autoincrement())
+  nazwa_typu String  @db.VarChar(128)
+  konta      konta[]
+}
+
+model typ_wlosa {
+  id_typu            Int                  @id @default(autoincrement())
+  nazwa_typu         String               @db.VarChar(128)
+  produkty           produkty[]
+  uzytkownicy        uzytkownicy[]
+  wypelnienie_ankiet wypelnienie_ankiet[]
+}
+
+model uzytkownicy {
+  id_konta           Int                  @id @default(autoincrement())
+  imie               String               @db.VarChar(128)
+  nazwisko           String?              @db.VarChar(128)
+  typ_wlosa_id       Int                  @default(0)
+  oceny_produktow    oceny_produktow[]
+  konta              konta                @relation(fields: [id_konta], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "uzytkownicy_fk0")
+  typ_wlosa          typ_wlosa            @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "uzytkownicy_fk1")
+  wypelnienie_ankiet wypelnienie_ankiet[]
+}
+
+model wypelnienie_ankiet {
+  id_wypelnienia      Int         @id @default(autoincrement())
+  konto_id            Int
+  ankieta_id          Int
+  wypelniona          Boolean     @default(false)
+  stopien_wypelnienia Int         @default(0)
+  wynik               Int
+  uwagi               String      @db.VarChar(128)
+  data_wypelnienia    DateTime    @db.Date
+  uzytkownicy         uzytkownicy @relation(fields: [konto_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk0")
+  ankiety             ankiety     @relation(fields: [ankieta_id], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk1")
+  typ_wlosa           typ_wlosa   @relation(fields: [wynik], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk2")
+}
