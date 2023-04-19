@@ -42,14 +42,14 @@ model oceny_produktow {
   produkt_id    Int
   uzytkownik_id Int
   ocena         Int
-  komentarz     String?     @default("NULL")
+  komentarz     String?     @default("NULL") @db.Text
   uzytkownicy   uzytkownicy @relation(fields: [uzytkownik_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "oceny_produktow_fk1")
 }
 
 model odpowiedzi {
   id_odpowiedzi Int     @id @default(autoincrement())
   id_pytania    Int
-  odpowiedz     String  @db.VarChar(128)
+  odpowiedz     String  @db.VarChar(128) @db.Text
   pytania       pytania @relation(fields: [id_pytania], references: [id_pytania], onDelete: NoAction, onUpdate: NoAction, map: "odpowiedzi_fk0")
 }
 
@@ -65,8 +65,8 @@ model produkty {
   kategoria_id Int
   firma_id     Int
   typ_wlosa_id Int
-  opis         String?
-  sklad        String?
+  opis         String?   @db.Text
+  sklad        String?   @db.Text
   firma        firma     @relation(fields: [firma_id], references: [id_firmy], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk0")
   typ_wlosa    typ_wlosa @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk1")
   kategoria    kategoria @relation(fields: [kategoria_id], references: [id_kategorii], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk2")
