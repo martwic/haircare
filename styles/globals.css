@@ -232,4 +232,7 @@ td{
   width: 400px;
 }
 
-
+.boxOfProducts a{
+  text-decoration: none;
+  color: #6f3f2d;
+}

@@ -1,4 +1,5 @@
 import { prisma } from '../server/db/client'
+import Link from 'next/link';
 
 export default function Home({products}){
   return (
@@ -7,13 +8,15 @@ export default function Home({products}){
       <div className="sectionLog">
                 <div className="boxOfProducts">
     <table>
+    <tbody>
     {products.map((produkty) => (
       <tr key={produkty.id_produktu}>
         <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.jpg`} /></td>
-        <td><h2>{produkty.nazwa}</h2></td>
+        <td><Link href="/offers" passHref><h3>{produkty.nazwa}</h3></Link></td>
         <td>{produkty.firma.nazwa_firmy}</td>
       </tr>
     ))}
+    </tbody>
   </table>
   </div>
   </div>
