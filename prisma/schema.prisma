@@ -42,14 +42,14 @@ model oceny_produktow {
   produkt_id    Int
   uzytkownik_id Int
   ocena         Int
-  komentarz     String?     @default("NULL") @db.Text
+  komentarz     String?     @default("NULL")
   uzytkownicy   uzytkownicy @relation(fields: [uzytkownik_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "oceny_produktow_fk1")
 }
 
 model odpowiedzi {
   id_odpowiedzi Int     @id @default(autoincrement())
   id_pytania    Int
-  odpowiedz     String  @db.VarChar(128) @db.Text
+  odpowiedz     String  @db.VarChar(128)
   pytania       pytania @relation(fields: [id_pytania], references: [id_pytania], onDelete: NoAction, onUpdate: NoAction, map: "odpowiedzi_fk0")
 }
 
@@ -62,14 +62,16 @@ model oferty {
 model produkty {
   id_produktu  Int       @id @default(autoincrement())
   nazwa        String    @db.VarChar(128)
-  kategoria_id Int
   firma_id     Int
   typ_wlosa_id Int
-  opis         String?   @db.Text
-  sklad        String?   @db.Text
+  opis         String?
+  kategoria_id Int
+  typ_id       Int?
+  sklad        String?
   firma        firma     @relation(fields: [firma_id], references: [id_firmy], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk0")
   typ_wlosa    typ_wlosa @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk1")
   kategoria    kategoria @relation(fields: [kategoria_id], references: [id_kategorii], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk2")
+  typ          typ?      @relation(fields: [typ_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk3")
 }
 
 model pytania {
@@ -117,4 +119,10 @@ model wypelnienie_ankiet {
   uzytkownicy         uzytkownicy @relation(fields: [konto_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk0")
   ankiety             ankiety     @relation(fields: [ankieta_id], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk1")
   typ_wlosa           typ_wlosa   @relation(fields: [wynik], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk2")
+}
+
+model typ {
+  id_typu    Int        @id @default(autoincrement())
+  nazwa_typu String     @db.VarChar(128)
+  produkty   produkty[]
 }

@@ -16,7 +16,9 @@ export default function Home({data}) {
                         <label for="lname">Hasło:</label><br/>
                         <input type="password" id="lname" name="password" required/><br/><br/>
                         <input type="submit" class="sbutton" value="Zaloguj"/><br/><br/>
-                        <a href="#" id="odn">Nie masz konta? Zarejestruj się!</a>
+                        <Link href="/signin" passHref>
+                        Nie masz konta? Zarejestruj się!
+                        </Link>
                     </form> 
                 </div>
                 </div>
