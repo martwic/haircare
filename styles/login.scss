@@ -1,8 +1,15 @@
+$firstColor: #f9d0c1;
+$fontColor: #6f3f2d;
+$whiteColor: #ffffff8e;
+$darkColor: #2c1911;
+$shadowColor: rgba(0, 0, 0, 0.2);
+
+
 body {
-    background: #f9d0c1;
+    background: $firstColor;
     background-image: url(images/background.jpg);
     background-size: cover;
-    color: #6f3f2d;
+    color: $fontColor;
     font-family: "Lato";
     font-size: 16px;
     line-height: 1.5;
@@ -16,7 +23,7 @@ body {
     display: flex;
     width: 100vp;
     height: 100vh;
-    background: rgba(249, 208, 193, 0.6)
+    background: $firstColor;
 }
 
 .center{
@@ -40,9 +47,9 @@ body {
 .box{
     width: 30%;
     height: auto;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: $whiteColor;  
     border-width: 0;
-    color: #333333;
+    color: $darkColor;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -53,6 +60,7 @@ body {
 
 #odn{
     font-size: 3vh;
+
 }
 
 
