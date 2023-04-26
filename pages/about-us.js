@@ -1,27 +1,23 @@
+import { prisma } from '../server/db/client'
 import Link from 'next/link';
 
-export default function Home({data}){
+export default function Home({products}){
   return (
     <div className='bodyLog'>
       <div className='mainLog'>
       <div className="sectionLog">
                 <div className="boxOfProducts">
-                <p>Jesteśmy grupą dziewczyn, które uwielbiają dbać o swoje włosy i chcą pomóc innym w
-                osiągnięciu najlepszego efektu pielęgnacji. Nasza strona HairCare oferuje
-                spersonalizowane porady dotyczące pielęgnacji włosów, które pomogą Ci znaleźć
-                kosmetyki najlepiej dopasowane do Twojego konkretnego przypadku.
-                Nie jesteśmy związane z żadną konkretną marką kosmetyków - kierujemy się wyłącznie
-                składem i działaniem produktów, aby móc polecić Wam najlepsze rozwiązania dla
-                Waszych włosów. Jesteśmy przekonane, że każda osoba zasługuje na zdrowe i piękne
-                włosy. Dlatego stworzyłyśmy HairCare - aby pomóc Ci w osiągnięciu tego celu.
-                Nasza metoda działania jest prosta: wypełnij ankietę dotyczącą Twoich włosów, a my
-                przygotujemy spersonalizowaną listę kosmetyków, które najlepiej dopasują się do
-                Twojego typu włosów i potrzeb pielęgnacyjnych. Dzięki temu oszczędzisz czas i
-                pieniądze, unikając próbowania wielu różnych produktów, zanim znajdziesz ten idealny.
-                Naszą misją jest pomaganie innym w pielęgnacji włosów i dzielenie się naszą wiedzą
-                oraz doświadczeniem. Zapraszamy do śledzenia naszych porad na stronie internetowej
-                oraz w mediach społecznościowych. Jeśli masz pytania lub potrzebujesz porady,
-                skontaktuj się z nami - chętnie pomożemy!</p>
+    <table>
+    <tbody>
+    {products.map((produkty) => (
+      <tr key={produkty.id_produktu}>
+        <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} /></td>
+        <td><Link href={`/offers//${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
+        <td>{produkty.firma.nazwa_firmy}</td>
+      </tr>
+    ))}
+    </tbody>
+  </table>
   </div>
   </div>
   </div>
@@ -29,3 +25,16 @@ export default function Home({data}){
   )
 }
 
+export async function getServerSideProps() {
+  const products= await prisma.produkty.findMany({
+    include: {
+      firma: true, 
+    },
+  })
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  }
+}
