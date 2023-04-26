@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link';
-import { prisma } from '/server/db/client'
 import React, { useState } from "react";
 
 export default function Home() {
