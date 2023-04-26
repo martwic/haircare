@@ -11,7 +11,7 @@ export default function Home({products}){
     <tbody>
     {products.map((produkty) => (
       <tr key={produkty.id_produktu}>
-        <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.jpg`} /></td>
+        <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} /></td>
         <td><Link href={`/offers//${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
         <td>{produkty.firma.nazwa_firmy}</td>
       </tr>
