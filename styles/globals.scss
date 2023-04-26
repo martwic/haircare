@@ -133,7 +133,7 @@ a:hover{
 
 .bodyLog {
   background: $firstColor;
-  background-image: url(/images/background.jpg);
+  background-image: url("/images/background.jpg");
   background-size: cover;
   color: $fontColor;
   font-family: "Lato";
@@ -149,7 +149,7 @@ a:hover{
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: $firstColor;
+  background: rgba($firstColor, 0.7);
 }
 
 .centerLog{
