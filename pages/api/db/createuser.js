@@ -13,8 +13,8 @@ export default async function handler(req, res) {
       id_k = konta.id_konta
     ))}
     if(!id_k){
+
       
-    
     console.log(login);
         const haslo1 = await hash(haslo, 12)
         const newUer = await prisma.$queryRaw`INSERT INTO konta (login, email, haslo) VALUES (${login}, ${email}, ${haslo1});`

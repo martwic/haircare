@@ -15,7 +15,7 @@ export default function Home() {
       e.preventDefault();
       const res = await axios.post('./api/db/createuser', {imie, nazwisko, login, email,  haslo} )
       console.log(res.data)
-      if(res.status=202){
+      if(res.status==202){
         window.alert("Na taki email istnieje już konto");
         location.reload()
       }
