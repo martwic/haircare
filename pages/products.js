@@ -1,4 +1,4 @@
-import { prisma } from '../server/db/client'
+import { prisma } from '/server/db/client'
 import Link from 'next/link';
 
 export default function Home({products}){

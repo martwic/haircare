@@ -29,11 +29,11 @@ model kategoria {
 model konta {
   id_konta         Int          @id @default(autoincrement())
   login            String       @db.VarChar(64)
-  email            String?      @db.VarChar(64)
-  haslo            String?      @db.VarChar(128)
-  typ_konta_id     Int
-  data_rejestracji DateTime     @db.Date
-  typ_konta        typ_konta    @relation(fields: [typ_konta_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "konta_fk0")
+  email            String       @db.VarChar(64)
+  haslo            String       @db.VarChar(128)
+  typ_konta_id     Int?         @default(2)
+  data_rejestracji DateTime?    @default(now()) @db.Date
+  typ_konta        typ_konta?   @relation(fields: [typ_konta_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "konta_fk0")
   uzytkownicy      uzytkownicy?
 }
 
@@ -82,6 +82,12 @@ model pytania {
   ankiety    ankiety      @relation(fields: [id_ankiety], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "pytania_fk0")
 }
 
+model typ {
+  id_typu    Int        @id @default(autoincrement())
+  nazwa_typu String     @db.VarChar(128)
+  produkty   produkty[]
+}
+
 model typ_konta {
   id_typu    Int     @id @default(autoincrement())
   nazwa_typu String  @db.VarChar(128)
@@ -119,10 +125,4 @@ model wypelnienie_ankiet {
   uzytkownicy         uzytkownicy @relation(fields: [konto_id], references: [id_konta], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk0")
   ankiety             ankiety     @relation(fields: [ankieta_id], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk1")
   typ_wlosa           typ_wlosa   @relation(fields: [wynik], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk2")
-}
-
-model typ {
-  id_typu    Int        @id @default(autoincrement())
-  nazwa_typu String     @db.VarChar(128)
-  produkty   produkty[]
 }

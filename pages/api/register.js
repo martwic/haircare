@@ -1,5 +1,5 @@
-import { prisma } from "../../server/db/client"
 
+/*
 export default async function handler(req, res) {
     const { method } = req
   
@@ -37,4 +37,4 @@ export default async function handler(req, res) {
         res.setHeader("Allow", ["POST"])
         res.status(405).end(`Method ${method} Not Allowed`)
     }
-  }
+  }*/
