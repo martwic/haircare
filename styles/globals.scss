@@ -9,6 +9,7 @@ html {
   width: auto;
   height: auto;
   color: $fontColor;
+  overflow: hidden;
 }
 
 body {
@@ -20,7 +21,7 @@ body {
   line-height: 1.5;
   margin: 0 auto;
   max-width: 100%;
-  overflow:hidden;
+  overflow: hidden;
 }
 .main{
   display: flex;
@@ -242,3 +243,92 @@ td{
   text-decoration: none;
   color: $fontColor;
 }
+
+.boxAboutUs {
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boxAboutUs p {
+  font-size: 25px;
+  line-height: 1.5;
+  color: #6f3f2d;
+}
+@media screen and (max-width: 900px) {
+  /* Styl dla urządzeń o szerokości mniejszej lub równej 768 pikseli */
+
+  body {
+    overflow: auto;
+  }
+
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    position: relative;
+  }
+
+  .header-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: 2vh;
+  }
+
+  header li {
+    padding: 1vh;
+    list-style-type: none;
+    font-size: 2.5vh;
+  }
+
+  header li a {
+    text-decoration: none;
+    color: $fontColor;
+  }
+
+  a:hover {
+    color: $darkColor;
+    text-shadow: 2px 2px 4px $fontColor;
+  }
+
+  .left {
+    width: 100%;
+    height: auto;
+  }
+
+  .section {
+    margin: 5%;
+    margin-top: 10vh;
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .boxOfProducts {
+    width: 90%;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  td {
+    width: 100%;
+  }
+
+  .boxAboutUs p {
+    font-size: 16px;
+  }
+  
+  .sectionLog{
+    height: 86%;
+  }
+}
+
