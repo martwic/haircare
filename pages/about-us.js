@@ -5,7 +5,7 @@ export default function Home({data}){
     <div className='bodyLog'>
       <div className='mainLog'>
       <div className="sectionLog">
-                <div className="boxOfProducts">
+                <div className="boxAboutUs">
                 <p>Jesteśmy grupą dziewczyn, które uwielbiają dbać o swoje włosy i chcą pomóc innym w
                 osiągnięciu najlepszego efektu pielęgnacji. Nasza strona HairCare oferuje
                 spersonalizowane porady dotyczące pielęgnacji włosów, które pomogą Ci znaleźć

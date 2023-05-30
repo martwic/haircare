@@ -63,4 +63,14 @@ body {
 
 }
 
+@media (max-width: 768px) {
+  .box {
+    width: 80%;
+  }
+}
 
+@media (max-width: 480px) {
+  .box {
+    width: 90%;
+  }
+}
