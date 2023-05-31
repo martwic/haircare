@@ -171,7 +171,7 @@ a:hover{
 }
 
 .box{
-  width: 40%;
+  width: 40vw;
   height: auto;
   background-color: $whiteColor;
   border-width: 0;
@@ -334,6 +334,10 @@ td{
 
   .sectionLog{
     height: 86%;
+  }
+
+  .box{
+    width: 80vw;
   }
 
   .boxAboutUs {
