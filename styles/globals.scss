@@ -171,7 +171,7 @@ a:hover{
 }
 
 .box{
-  width: 40%;
+  width: 40vw;
   height: auto;
   background-color: $whiteColor;
   border-width: 0;
@@ -246,17 +246,26 @@ td{
 
 .boxAboutUs {
   width: 80%;
+  height: auto; /* Zmieniamy wysokość na auto */
+  max-height: 80%; /* Dodajemy maksymalną wysokość */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .boxAboutUs p {
-  font-size: 25px;
+  font-size: 1.5vw;
   line-height: 1.5;
   color: #6f3f2d;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
 }
+
 @media screen and (max-width: 900px) {
   /* Styl dla urządzeń o szerokości mniejszej lub równej 768 pikseli */
 
@@ -286,7 +295,7 @@ td{
   header li {
     padding: 1vh;
     list-style-type: none;
-    font-size: 2.5vh;
+    font-size: 1.75vh;
   }
 
   header li a {
@@ -323,12 +332,22 @@ td{
     width: 100%;
   }
 
-  .boxAboutUs p {
-    font-size: 16px;
-  }
-  
   .sectionLog{
     height: 86%;
   }
+
+  .box{
+    width: 80vw;
+  }
+
+  .boxAboutUs {
+    width: 90%; /* Zwiększamy szerokość na urządzeniach mobilnych */
+    padding: 20px; /* Zwiększamy padding, aby pole było większe */
+  }
+  
+  .boxAboutUs p {
+    font-size: 2vw;
+  }
+  
 }
 
