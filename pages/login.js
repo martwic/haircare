@@ -2,12 +2,12 @@ import Head from 'next/head'
 import Image from 'next/image'
 import React, { useState } from "react";
 import Link from 'next/link';
-import axios from 'axios'
+import axios from 'axios';
 
 export default function Home({data}) {
   const [email, setemail] = useState('');
   const [haslo, setpassword] = useState('');
-
+  const cookie = require('cookie');
   const handleSubmit = async (e) => {
       e.preventDefault();
       const res = await axios.post('./api/db/loguser', {email,  haslo} )
@@ -21,6 +21,15 @@ export default function Home({data}) {
         location.reload()
       }
       else{
+        const token =res.data
+        const cookieValue = cookie.serialize('sessionToken', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          maxAge: 3600, 
+          path: '/', 
+        });
+        document.cookie = cookieValue;
         window.location = '/account'
       }
     };
