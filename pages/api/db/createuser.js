@@ -50,7 +50,6 @@ export default async function handler(req, res) {
         haslo: haslo,
       },
     });
-  
     return konto;
   }
 
