@@ -18,12 +18,11 @@ export default async function handler(req, res) {
         const newUer = await createAccount(login, email, haslo1)
         const id_q = await getIdByEmail(email)
         await createUser(id_q, imie, nazwisko)
-        
         res.status(201).json(newUer)
       }
       else{
         res.status(202).end(`Email exists`)
-      }
+      } 
         break
       default:
         res.setHeader("Allow", ["POST"])
