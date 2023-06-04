@@ -1,5 +1,5 @@
 import { prisma } from '/server/db/client'
-import { compare, hash } from 'bcrypt'
+import { compare, hash } from 'bcryptjs'
 
 export default async function handler(req, res) {
     const { method } = req
