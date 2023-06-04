@@ -1,5 +1,6 @@
 import { prisma } from '/server/db/client'
 import { compare, hash } from 'bcryptjs'
+import { setSession } from '@/server/auth';
 
 export default async function handler(req, res) {
     const { method } = req
@@ -20,8 +21,9 @@ export default async function handler(req, res) {
                 haslo2=user.haslo
                 const match = await compare(haslo, haslo2)
                 if(match){
-                    const token = jwt.sign({ userId: email }, 'key', { expiresIn: '1h' });
-                    res.json({ token })
+                    const session = { email };
+                    setSession(res, session);
+                    res.status(200).end(`OK`)
                 }
                 else{
                     res.status(204).end(`Wrong password`)
