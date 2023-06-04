@@ -1,5 +1,3 @@
-import { config as dotenvConfig } from 'dotenv';
-dotenvConfig({ path: '.env.local' });
 
 generator client {
   provider = "prisma-client-js"
