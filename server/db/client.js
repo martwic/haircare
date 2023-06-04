@@ -5,11 +5,7 @@ export const prisma =
   global.prisma ||
   new PrismaClient({
     log: ['query'],
-    __internal: {
-      featureFlags: {
-        prepare: false, 
-      },
-    },
+    enableCache: true,
   })
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
