@@ -3,7 +3,7 @@ import { compare, hash } from 'bcrypt'
 
 export default async function handler(req, res) {
     const { method } = req
-    
+    const jwt = require('jsonwebtoken');
     switch (method) {
         case "POST":
             const { email, haslo } = req.body;
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
                 ))}
                 const match = await compare(haslo, haslo2)
                 if(match){
-                    res.status(201).end(`OK`)
+                    const token = jwt.sign({ userId: email }, 'key', { expiresIn: '1h' });
+                    res.json({ token })
                 }
                 else{
                     res.status(204).end(`Wrong password`)

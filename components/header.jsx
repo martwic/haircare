@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 export const Header = () => {
   return (
@@ -23,7 +24,7 @@ export const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/#" passHref>
+                <Link href="/account" passHref>
                   Konto
                 </Link>
               </li>

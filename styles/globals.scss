@@ -337,8 +337,10 @@ td{
   }
 
   .box{
-    width: 80vw;
-  }
+      width: 80vw;
+      max-height: 75%;
+      font-size: 2vh;
+    }
 
   .boxAboutUs {
     width: 90%; /* Zwiększamy szerokość na urządzeniach mobilnych */

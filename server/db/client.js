@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import NextAuth from "next-auth"
 
 export const prisma =
   global.prisma ||
@@ -7,3 +8,4 @@ export const prisma =
   })
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
+
