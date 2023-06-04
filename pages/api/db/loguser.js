@@ -8,18 +8,16 @@ export default async function handler(req, res) {
         case "POST":
             const { email, haslo } = req.body;
             var haslo2
-            var user1
-            const user = await prisma.$queryRaw`SELECT * FROM konta WHERE email =${email}`
-            {user.map((konta) =>(
-                user1 = konta.id_konta
-              ))}
-            if(!user1){
+            const user = await prisma.konta.findFirst({
+          where: {
+            email: email,
+          },
+        });
+            if(!user){
                 res.status(203).end(`Wrong email`)
             }
             else{
-                {user.map((konta) =>(
-                    haslo2 = konta.haslo
-                ))}
+                haslo2=user.haslo
                 const match = await compare(haslo, haslo2)
                 if(match){
                     const token = jwt.sign({ userId: email }, 'key', { expiresIn: '1h' });

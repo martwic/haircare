@@ -7,22 +7,17 @@ export default async function handler(req, res) {
     switch (method) {
         case "POST":
     const { imie, nazwisko, login, email, haslo } = req.body;
-    var id_k
-    const previousMail = await prisma.$queryRaw`SELECT * FROM konta WHERE email =${email}`
-    {previousMail.map((konta) =>(
-      id_k = konta.id_konta
-    ))}
-    if(!id_k){
+    let id_k = await prisma.konta.count({
+        where: {
+          email: email,
+        }
+      })
 
-      
-    console.log(login);
+    if(id_k==0){
         const haslo1 = await hash(haslo, 12)
-        const newUer = await prisma.$queryRaw`INSERT INTO konta (login, email, haslo) VALUES (${login}, ${email}, ${haslo1});`
-        const id_q = await prisma.$queryRaw`SELECT id_konta FROM konta WHERE email =${email}`
-        {id_q.map((konta) =>(
-          id_k = konta.id_konta
-        ))}
-        await prisma.$queryRaw`INSERT INTO uzytkownicy (id_konta, imie, nazwisko) VALUES (${id_k}, ${imie}, ${nazwisko})`
+        const newUer = await createAccount(login, email, haslo1)
+        const id_q = await getIdByEmail(email)
+        await createUser(id_q, imie, nazwisko)
         
         res.status(201).json(newUer)
       }
@@ -36,4 +31,38 @@ export default async function handler(req, res) {
     }
   }
 
+  async function getIdByEmail(email) {
+    const konto = await prisma.konta.findFirst({
+      where: {
+        email: email,
+      },
+      select: {
+        id_konta: true,
+      },
+    });
+    return konto?.id_konta;
+  }
+
+  async function createAccount(login, email, haslo) {
+    const konto = await prisma.konta.create({
+      data: {
+        login: login,
+        email: email,
+        haslo: haslo,
+      },
+    });
   
+    return konto;
+  }
+
+async function createUser(id, imie, nazwisko) {
+  const uzytkownik = await prisma.uzytkownicy.create({
+    data: {
+      id_konta: id,
+      imie: imie,
+      nazwisko: nazwisko,
+    },
+  });
+
+  return uzytkownik;
+}

@@ -49,7 +49,7 @@ model oceny_produktow {
 model odpowiedzi {
   id_odpowiedzi Int     @id @default(autoincrement())
   id_pytania    Int
-  odpowiedz     String  @db.VarChar(128)
+  odpowiedz     String
   pytania       pytania @relation(fields: [id_pytania], references: [id_pytania], onDelete: NoAction, onUpdate: NoAction, map: "odpowiedzi_fk0")
 }
 
