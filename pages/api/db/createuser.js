@@ -61,6 +61,5 @@ async function createUser(id, imie, nazwisko) {
       nazwisko: nazwisko,
     },
   });
-
   return uzytkownik;
 }
