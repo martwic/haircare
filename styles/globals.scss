@@ -322,19 +322,10 @@ td{
     width: 100%;
   }
 
-  .boxOfProducts{
-    width: 70%;
-    overflow:scroll;
-    overflow-x:hidden;
-    max-height: 80%;
-    height: auto;
-    background-color: $whiteColor;
-    border-width: 0;
-    color: $darkColor;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
+  .boxOfProducts {
+    width: 90%;
+    overflow: auto;
+    overflow-x: hidden;
   }
 
   .boxOfProducts a{
