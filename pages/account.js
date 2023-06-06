@@ -18,6 +18,7 @@ export default function Home({ session }) {
         <div className='bodyLog'>
           <div className='mainLog'>
             <div className="sectionLog">
+              <h3>Cześć!</h3>
               <Link href="/hairForm"><button>ANKIETA</button></Link>
               <button onClick={handleLogout}>Wyloguj</button>
             </div>
