@@ -213,7 +213,8 @@ a:hover{
   width: 70%;
   overflow:scroll;
   overflow-x:hidden;
-  max-height: 80%;
+  max-height: 100%;
+  top:10vh;
   height: auto;
   background-color: $whiteColor;
   border-width: 0;
