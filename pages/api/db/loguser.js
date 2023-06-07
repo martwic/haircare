@@ -21,7 +21,8 @@ export default async function handler(req, res) {
                 haslo2=user.haslo
                 const match = await compare(haslo, haslo2)
                 if(match){
-                    const session = { email };
+                    const user = { email: email };
+                    const session = { user };
                     setSession(res, session);
                     res.status(200).end(`OK`)
                 }
