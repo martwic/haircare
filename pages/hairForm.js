@@ -2,6 +2,7 @@ import { prisma } from '/server/db/client';
 import { useState } from 'react';
 import Link from 'next/link';
 import Router from "next/router";
+import axios from 'axios';
 
 export default function Home({ questions }) {
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -15,7 +16,9 @@ export default function Home({ questions }) {
   let params = new URLSearchParams(location.search);
   const id_k = params.get('id');
   const handleUpdate= async ({result}) => {
-    await fetch(`/api/updateHairData?id=${id_k}&type=${result}`); 
+    //await fetch(`/api/updateHairData?id=${id_k}&type=${result}`); 
+    //const res = await axios.post(`/api/updateHairData`, {id_k, result}); 
+    //console.log(res.data);
     Router.push("/account"); 
   };
 
