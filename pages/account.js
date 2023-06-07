@@ -7,7 +7,7 @@ import { destroySession } from '../server/auth';
 import Router from "next/router";
 import {  NextResponse } from 'next/server'
 
-export default function Home({ session }) {
+export default function Home({ session, userdata }) {
   const handleLogout = async () => {
     await fetch('/api/logout'); // Wywołanie endpointu /api/logout
     Router.push("/login"); // Przekierowanie po wylogowaniu na stronę logowania
@@ -15,15 +15,22 @@ export default function Home({ session }) {
   if (!session) {
     return (null);
   } 
-  const { user } = session;
+
   return (
     <div>
       <div className='bodyLog'>
         <div className='mainLog'>
           <div className="sectionLog">
-            <h3>Cześć!</h3>       <p>Hello, {user.email}</p>;
-            <Link href="/hairForm"><button>ANKIETA</button></Link>
+                 
+            {userdata.map((uzytkownicy) => (
+      <div key={uzytkownicy.id_konta}>
+        <h2>Cześć, {uzytkownicy.imie}!</h2>
+        <p>Typ włosa: {uzytkownicy.typ_wlosa.nazwa_typu}</p>
+        <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button>ANKIETA</button></Link><br/>
             <button onClick={handleLogout}>Wyloguj</button>
+        </div>
+    ))}
+
           </div>
         </div>
       </div>
@@ -34,7 +41,30 @@ export default function Home({ session }) {
 
 export async function getServerSideProps({ req }) {
   const session = getSession(req);
-  return { props: { session } };
+  if(!session){
+    return {
+      props: {
+        session
+      },
+    }
+  }
+  const { user } = session;
+  const userdata= await prisma.uzytkownicy.findFirst({
+    include: {
+      typ_wlosa: true, 
+    },
+    where:{
+      konta:{email: user.email,}
+    },
+  })
+  return {
+    props: {
+      userdata: [JSON.parse(JSON.stringify(userdata))],
+      session
+    },
+  }
 }
+
+
 
 

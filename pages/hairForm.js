@@ -1,6 +1,7 @@
 import { prisma } from '/server/db/client';
 import { useState } from 'react';
 import Link from 'next/link';
+import Router from "next/router";
 
 export default function Home({ questions }) {
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -10,6 +11,12 @@ export default function Home({ questions }) {
       ...prevSelectedAnswers,
       [questionId]: answerId,
     }));
+  };
+  let params = new URLSearchParams(location.search);
+  const id_k = params.get('id');
+  const handleUpdate= async ({result}) => {
+    await fetch(`/api/updateHairData?id=${id_k}&type=${result}`); 
+    Router.push("/account"); 
   };
 
   const handleEvaluate = () => {
@@ -44,9 +51,8 @@ export default function Home({ questions }) {
     }
   
     alert(`Wynik: ${result}`);
+    handleUpdate(result);
   };
-  
-  
 
   return (
     <div className="bodyLog">
@@ -94,6 +100,7 @@ export default function Home({ questions }) {
 }
 
 export async function getServerSideProps() {
+  
   const questions = await prisma.pytania.findMany({
     where: {
       id_ankiety: 1,
@@ -109,3 +116,4 @@ export async function getServerSideProps() {
     },
   };
 }
+
