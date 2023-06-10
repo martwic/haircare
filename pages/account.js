@@ -1,11 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link';
-import cookie from 'cookie';
 import { getSession } from "../server/auth";
-import { destroySession } from '../server/auth';
 import Router from "next/router";
-import {  NextResponse } from 'next/server'
 
 export default function Home({ session, userdata }) {
   const handleLogout = async () => {

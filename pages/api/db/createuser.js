@@ -1,5 +1,6 @@
 import { prisma } from '/server/db/client'
 import { compare, hash } from 'bcryptjs'
+import { setSession } from '@/server/auth';
 
 export default async function handler(req, res) {
     const { method } = req
@@ -18,6 +19,9 @@ export default async function handler(req, res) {
         const newUer = await createAccount(login, email, haslo1)
         const id_q = await getIdByEmail(email)
         await createUser(id_q, imie, nazwisko)
+        const user = { email: email };
+        const session = { user };
+        setSession(res, session);
         res.status(201).json(newUer)
       }
       else{

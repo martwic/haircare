@@ -3,7 +3,6 @@ import Image from 'next/image'
 import React, { useState } from "react";
 import Link from 'next/link';
 import axios from 'axios';
-import { setSession } from "../server/auth";
 
 export default function Home({data}) {
   const [email, setemail] = useState('');

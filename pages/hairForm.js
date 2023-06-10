@@ -13,18 +13,11 @@ export default function Home({ questions }) {
       [questionId]: answerId,
     }));
   };
-  let params = new URLSearchParams(location.search);
-  const id_k = params.get('id');
-  const handleUpdate= async ({result}) => {
-    //await fetch(`/api/updateHairData?id=${id_k}&type=${result}`); 
-    //const res = await axios.post(`/api/updateHairData`, {id_k, result}); 
-    //console.log(res.data);
-    Router.push("/account"); 
-  };
 
-  const handleEvaluate = () => {
+  const handleEvaluate = async (e) => {
+    e.preventDefault();
     let totalPoints = 0;
-  
+
     for (const [questionId, answerId] of Object.entries(selectedAnswers)) {
       const question = questions.find(
         (pytanie) => pytanie.id_pytania === parseInt(questionId)
@@ -45,23 +38,25 @@ export default function Home({ questions }) {
       }
     }
   
-    let result = "niskoporowate";
+    let result = "1";
   
     if (totalPoints >= 16) {
-      result = "wysokoporowate";
+      result = "3";
     } else if (totalPoints >= 8) {
-      result = "średnioporowate";
+      result = "2";
     }
-  
-    alert(`Wynik: ${result}`);
-    handleUpdate(result);
+    let params = new URLSearchParams(location.search);
+    const id_k = params.get('id');
+    const res = await axios.post('./api/db/updateHairData', {id_k, result} )
+    console.log(res.data)
+    window.location = '/account'
   };
 
   return (
     <div className="bodyLog">
       <div className="mainLog">
         <div className="sectionLog">
-          <div className="boxOfProducts">
+          <div className="boxQuiz">
             <table>
               <tbody>
                 {questions.map((pytanie) => (
@@ -90,7 +85,9 @@ export default function Home({ questions }) {
                 ))}
                 <tr>
                     <td>
-                        <button onClick={handleEvaluate}>OCEŃ</button>
+                    <form onSubmit={handleEvaluate} method='post'> 
+                      <input type="submit" class="sbutton" value="OCEŃ"></input>
+                    </form>
                     </td>
                 </tr>
               </tbody>

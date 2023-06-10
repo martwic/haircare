@@ -226,6 +226,23 @@ a:hover{
   align-items: baseline;
 }
 
+.boxQuiz{
+  width: 70%;
+  overflow: scroll;
+  overflow-x: hidden;
+  max-height: 86%;
+  position: absolute;
+  top: 10vh;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.5568627451);
+  border-width: 0;
+  color: #2c1911;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
 .boxOfProducts img{
   width: 15vw;
 }
@@ -388,6 +405,14 @@ td{
   }
 
   .boxOfProducts {
+    width: 90%;
+    max-height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+    position: static;
+  }
+
+  .boxQuiz{
     width: 90%;
     max-height: 100%;
     overflow: auto;
