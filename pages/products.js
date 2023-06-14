@@ -1,14 +1,20 @@
 import { prisma } from '/server/db/client'
 import Link from 'next/link';
 import React, { useState } from "react";
+import { getSession } from '@/server/auth';
 
-export default function Home({ products }) {
+export default function Home({ products, session }) {
   const [category, setcategory] = useState('');
   const [type, settype] = useState('');
-
   /*
   <input type="search" id="search-input" placeholder="Wyszukaj nazwę produktu..." className='search-box' />
   */
+  var htmlFit={
+    
+  }
+ if(session){
+  var htmlFit=``;
+ };
 
   return (
     <div className='bodyLog'>
@@ -63,25 +69,23 @@ export default function Home({ products }) {
     </div>
   )
 }
-  /*
-  const products = await prisma.produkty.findMany({
-    include: {
-      firma: true,
-    },
-    where:{
-      typ_wlosa_id: type,
-      kategoria_id: category,
-    }
-  })
-  return {
-    props: {
-      products: JSON.parse(JSON.stringify(products)),
-    },}*/
-  
 
 
 export async function getServerSideProps(context) {
+  const session = getSession(context.req);
   const { category, type } = context.query;
+if(session){
+  const { user } = session;
+  const userdata= await prisma.uzytkownicy.findFirst({
+    include: {
+      typ_wlosa: true, 
+    },
+    where:{
+      konta:{email: user.email,}
+    },
+  })
+}
+  
   if(!type && !category){
     const products = await prisma.produkty.findMany({
       include: {
