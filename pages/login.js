@@ -3,8 +3,10 @@ import Image from 'next/image'
 import React, { useState } from "react";
 import Link from 'next/link';
 import axios from 'axios';
+import { getSession } from '@/server/auth';
+import { useRouter } from 'next/dist/client/router';
 
-export default function Home({data}) {
+export default function Home({data, session}) {
   const [email, setemail] = useState('');
   const [haslo, setpassword] = useState('');
   const cookie = require('cookie');
@@ -21,10 +23,15 @@ export default function Home({data}) {
         location.reload()
       }
       else{
-        
         window.location = '/account'
       }
     };
+
+if(session){
+  const router = useRouter();
+  router.push('/account');
+}
+
   return (
     <div>
       <div className='bodyLog'>
@@ -48,4 +55,9 @@ export default function Home({data}) {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const session = getSession(req);
+  return { props: { session } };
 }

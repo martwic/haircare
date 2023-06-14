@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link';
 
+
 export default function Home({data}) {
   return (
     <div>
@@ -15,7 +16,7 @@ export default function Home({data}) {
             <div className="right">
                 <div className="foto1_container">
                     <div className="login">
-                        <a href="/login"><button className="button1" role="button">ZALOGUJ SIĘ</button></a>
+                    <Link href="/login" passHref><button className="button1" role="button">ZALOGUJ SIĘ</button></Link>
                     </div>
                 </div>
             </div>

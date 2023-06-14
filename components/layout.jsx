@@ -2,11 +2,10 @@ import React from 'react';
 import { Footer } from './footer';
 import { Header } from './header';
 
-
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, session }) => {
   return (
     <>
-      <Header />
+      <Header session={session} />
       <main>{children}</main>
       <Footer />
     </>
@@ -14,3 +13,4 @@ const MainLayout = ({ children }) => {
 };
 
 export default MainLayout;
+

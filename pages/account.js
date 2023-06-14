@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { getSession } from "../server/auth";
 import Router from "next/router";
+import { prisma } from '@/server/db/client';
 
 export default function Home({ session, userdata }) {
   const handleLogout = async () => {

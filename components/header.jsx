@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { getSession } from "../server/auth";
 
 export const Header = ({session}) => {
-  if(!session)
+  if(session){
   return (
     <header>
           <img alt="logo" src={'/images/logo_transparent.png'} />
@@ -32,8 +31,8 @@ export const Header = ({session}) => {
             </ul>
           </div>
     </header>
-  );
-  else
+  );}
+  else{
   return (
     <header>
           <img alt="logo" src={'/images/logo_transparent.png'} />
@@ -62,10 +61,6 @@ export const Header = ({session}) => {
             </ul>
           </div>
     </header>
-  );
+  );}
 };
 
-export async function getServerSideProps({ req }) {
-  const session = getSession(req);
-  return { props: { session } };
-}
