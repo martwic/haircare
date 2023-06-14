@@ -23,7 +23,7 @@ export default function Home({ products }) {
                     <div className='label-select-container'>
                       <label htmlfor="typ-produktu" className="label-produkt">Kategorie produktu: </label>
                       <select id="typ-produktu" name="typ-produktu" className="filter-select" onChange={(e) => setcategory(e.target.value)}>
-                        <option value="0">Wszystkie</option>
+                        <option value="">Wszystkie</option>
                         <option value="1">Szampon</option>
                         <option value="2">Odżywka</option>
                         <option value="3">Wcierka</option>
@@ -34,7 +34,7 @@ export default function Home({ products }) {
                     <div className='label-select-container'>
                       <label htmlfor="typ-wlosow" class="label-produkt">Typ włosów: </label>
                       <select id="typ-wlosow" name="typ-wlosow" className="filter-select" onChange={(e) => settype(e.target.value)}>
-                        <option value="0">Wszystkie</option>
+                        <option value="">Wszystkie</option>
                         <option value="1">Niskoporowate</option>
                         <option value="2">Średnioporotwate</option>
                         <option value="3">Wysokoporowate</option>
