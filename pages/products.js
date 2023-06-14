@@ -3,18 +3,10 @@ import Link from 'next/link';
 import React, { useState } from "react";
 import { getSession } from '@/server/auth';
 
-export default function Home({ products, session }) {
+export default function Home({ products, session, userdata }) {
   const [category, setcategory] = useState('');
   const [type, settype] = useState('');
-  /*
-  <input type="search" id="search-input" placeholder="Wyszukaj nazwę produktu..." className='search-box' />
-  */
-  var htmlFit={
-    
-  }
- if(session){
-  var htmlFit=``;
- };
+
 
   return (
     <div className='bodyLog'>
@@ -25,7 +17,6 @@ export default function Home({ products, session }) {
               <div id="search-container">
                 <form  name='searchBar'>
                   <div className='select-search'>
-                    
                     <div className='label-select-container'>
                       <label htmlfor="typ-produktu" className="label-produkt">Kategorie produktu: </label>
                       <select id="typ-produktu" name="typ-produktu" className="filter-select" onChange={(e) => setcategory(e.target.value)}>
@@ -37,10 +28,13 @@ export default function Home({ products, session }) {
                         <option value="5">Peeling</option>
                       </select>
                     </div>
-                    <div className='label-select-container'>
+                    <div className='label-select-container' >
                       <label htmlfor="typ-wlosow" class="label-produkt">Typ włosów: </label>
                       <select id="typ-wlosow" name="typ-wlosow" className="filter-select" onChange={(e) => settype(e.target.value)}>
                         <option value="">Wszystkie</option>
+                        {session && userdata.map((uzytkownicy) => (
+                          <option key={uzytkownicy.typ_wlosa.id_typu} value={uzytkownicy.typ_wlosa.id_typu}>Twój typ</option>
+                        ))}
                         <option value="1">Niskoporowate</option>
                         <option value="2">Średnioporotwate</option>
                         <option value="3">Wysokoporowate</option>
@@ -74,14 +68,23 @@ export default function Home({ products, session }) {
 export async function getServerSideProps(context) {
   const session = getSession(context.req);
   const { category, type } = context.query;
+
+  var userdata;
 if(session){
   const { user } = session;
-  const userdata= await prisma.uzytkownicy.findFirst({
+  userdata= await prisma.uzytkownicy.findFirst({
     include: {
       typ_wlosa: true, 
     },
     where:{
       konta:{email: user.email,}
+    },
+  })
+}
+else{
+  userdata= await prisma.uzytkownicy.findFirst({
+    include: {
+      typ_wlosa: true, 
     },
   })
 }
@@ -96,6 +99,8 @@ if(session){
     return {
       props: {
         products: JSON.parse(JSON.stringify(products)),
+        userdata: [JSON.parse(JSON.stringify(userdata))],
+        session
       },
     }
   }
@@ -111,6 +116,8 @@ if(session){
     return {
       props: {
         products: JSON.parse(JSON.stringify(products)),
+        userdata: [JSON.parse(JSON.stringify(userdata))],
+        session
       },}
   }
   else if(!category){
@@ -125,6 +132,8 @@ if(session){
     return {
       props: {
         products: JSON.parse(JSON.stringify(products)),
+        userdata: [JSON.parse(JSON.stringify(userdata))],
+        session
       },}
   }
   else{
@@ -140,6 +149,8 @@ if(session){
     return {
       props: {
         products: JSON.parse(JSON.stringify(products)),
+        userdata: [JSON.parse(JSON.stringify(userdata))],
+        session
       },}
   }
 
