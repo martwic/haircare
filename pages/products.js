@@ -126,7 +126,12 @@ else{
         firma: true,
       },
       where:{
-        typ_wlosa_id: parseInt(type),
+        OR: [
+          {
+            typ_wlosa_id: parseInt(type),
+          },
+          { typ_wlosa_id: 0, },
+        ],
       }
     })
     return {
@@ -142,8 +147,13 @@ else{
         firma: true,
       },
       where:{
-        typ_wlosa_id: parseInt(type),
-        kategoria_id: parseInt(category),
+        kategoria_id:parseInt(category),
+        OR: [
+          {
+            typ_wlosa_id: parseInt(type),
+          },
+          { typ_wlosa_id: 0, },
+        ],
       }
     })
     return {
