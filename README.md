@@ -1,3 +1,5 @@
+# HairCare
+
 <b>Projekt w trakcie budowy</b> <br/>
 Link do strony: https://haircare.vercel.app
 
