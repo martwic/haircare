@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { getSession } from "../server/auth";
 import Router from "next/router";
+import { useRouter } from 'next/dist/client/router';
 import { prisma } from '@/server/db/client';
 
 export default function Home({ session, userdata }) {
@@ -11,7 +12,9 @@ export default function Home({ session, userdata }) {
     Router.push("/login"); // Przekierowanie po wylogowaniu na stronę logowania
   };
   if (!session) {
-    return (null);
+    const router = useRouter();
+    router.push('/login');
+    return null;
   } 
 
   return (

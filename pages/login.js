@@ -30,6 +30,7 @@ export default function Home({ data, session }) {
   if (session) {
     const router = useRouter();
     router.push('/account');
+    return null;
   }
 
   return (
