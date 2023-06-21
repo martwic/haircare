@@ -1,38 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HairCare
 
-## Getting Started
+<b>Projekt w trakcie budowy</b> <br/>
+Link do strony: https://haircare.vercel.app
 
-First, run the development server:
+Nasza aplikacja internetowa ma pomagać użytkownikom w doborze kosmetyków do pielęgnacji włosów. Każde włosy różnią się od siebie porowatością, czyli stopniem odchylenia łuski włosa od kory, stopniem skrętu i grubością. Podstawą doboru składników do włosów jest dążenie do równowagi PEH, czyli protein, humentkatów i emolientów. Są to składniki występujące w różnych proporcjach w kosmetykach do włosów. W związku z tym korzystając tylko z jednej odżywki po pewnym czasie może ona nie przynosić już oczekiwanych efektów, ponieważ występuje nadmiar lub niedobór konkretnego składnika.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Aplikacja ma rozwiązywać problem z doborem kosmetyków. Użytkownik będzie mógł utworzyć konto, zalogować się oraz wypełnić ankietę, która będzie zawierać pytania o rodzaj włosów, ich aktualny stan oraz efekty, które użytkownik chciałby uzyskać. Na podstawie wyników tej ankiety zostaną dobrane odpowiednie propozycje kosmetyków z utworzonej wcześniej bazy. Wypisane produkty będą miały opis z uproszczoną analizą składu. Użytkownik będzie także miał opcje dodawania komentarzy i ocen w skali 5-stopniowej. Oceny i komentarze będą widoczne dla innych użytkowników aplikacji. Użytkownik będzie miał możliwość filtrowania produktów według marki, działania czy ocen. Baza danych będzie zawierała produkty, ich skład oraz opis tłumaczący najważniejsze aspekty działania. Aplikacja będzie także generować raporty dotyczące ocen produktów, statystyki rejestracji w danym okresie czasu i statystyki dotyczącej wypełnienia ankiet.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<b>Wymagania funkcjonalne</b> <br/>
+▪Po wejściu na stronę nowi użytkownicy mogą się zarejestrować, a zarejestrowani użytkownicy mogą zalogować się za pomocą adresu e-mail i hasła <br/>
+▪Użytkownik ma możliwość wypełnienia ankiety, na podstawie której zostanie mu przyporządkowany odpowiedni typ włosa <br/>
+▪Użytkownik może przeglądać produkty odpowiednie dla jego typu włosa <br/>
+▪Dla każdego produktu można wyświetlić skład, opis, itp. <br/>
+▪Użytkownik może ocenić dowolny produkt w skali 5-stopniowej <br/>
+▪Średnia ocena każdego produktu będzie widoczna dla każdego użytkownika <br/>
+▪Przeglądane produkty można sortować według różnych kryteriów <br/>
+▪Administrator może edytować pytania ankiety, ma dostęp do statystyk, np. wypełnienia ankiety oraz może dodawać nowe produkty do bazy danych<br/>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
