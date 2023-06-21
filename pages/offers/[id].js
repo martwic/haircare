@@ -1,13 +1,29 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link';
+import { getSession } from '@/server/auth';
+import { prisma } from '@/server/db/client';
 
-export default function Home({products}) {
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const res = await axios.post('./api/db/createuser', {imie, nazwisko, login, email,  haslo} )
+  console.log(res.data)
+  if(res.status==202){
+    window.alert("Na taki email istnieje już konto");
+    location.reload()
+  }
+  else{
+    window.location = '/account'
+  }
+};
+
+export default function Home({products, amount, rate, session}) {
   return (
     <div className='bodyLog'>
       <div className='mainLog'>
       <div className="sectionLog">
-                <div className="boxOfProducts" >
+                <div className="boxOfOffers" >
     <table>
     <tbody>
     {products.map((produkty) => (
@@ -20,7 +36,25 @@ export default function Home({products}) {
         <h4>Skład:</h4>
         {produkty.sklad}
         <h4>Ocena:</h4>
-        *****
+        {rate.ocena_avg}(liczba ocen: {amount})
+        {session &&
+        <form onSubmit={handleSubmit} method='post'>
+        <div className="stars">
+        <div className="rate">
+                                    <input type ="hidden" name="prodid" value=""/>
+                                    <input type="radio" id="star5" name="rate" value="5" />
+                                    <label for="star5" title="text">5 stars</label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text">4 stars</label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label for="star3" title="text">3 stars</label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text">2 stars</label>
+                                    <input type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text">1 star</label>
+                                  </div>
+                                  </div>
+                                  </form>}
         </td>
       </tr>
     ))}
@@ -34,8 +68,9 @@ export default function Home({products}) {
 }
 
 
-export async function getServerSideProps(contex) {
-  var productId = parseInt(contex.params.id)
+export async function getServerSideProps(context) {
+  const session = getSession(context.req);
+  var productId = parseInt(context.params.id)
   const products= await prisma.produkty.findMany({
     include: {
       firma: true, 
@@ -44,10 +79,30 @@ export async function getServerSideProps(contex) {
       id_produktu: productId,
     },
   })
+  const amount= await prisma.oceny_produktow.count({
+    where:{
+      produkt_id: productId,
+    }
+  })
+  const rate = await prisma.oceny_produktow.aggregate({
+    _avg:{
+      ocena:true,
+    },
+    where:{
+      produkt_id: productId,
+    }
+  })
+  if(session){
+
+  }
 
   return {
     props: {
+      session,
       products: JSON.parse(JSON.stringify(products)),
+      amount: JSON.parse(JSON.stringify(amount)),
+      rate: JSON.parse(JSON.stringify(rate)),
+
     },
   }
 }
