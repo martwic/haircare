@@ -16,21 +16,44 @@ export default function Home({ session, userdata }) {
     router.push('/login');
     return null;
   } 
+/*
+    <div className='konto-favourites-workspace'>
+      <p className='workspace-element'><strong>Twoje ulubione produkty</strong></p>
+      <div className="produkty">
+        tutaj produkty ktore sie ocenilo od najlepiej ocenianego sortowane 
+      </div>
+    </div>
+*/ 
+
 
   return (
-    <div>
+<div>
       <div className='bodyLog'>
         <div className='mainLog'>
           <div className="sectionLog">
                  
             {userdata.map((uzytkownicy) => (
-      <div key={uzytkownicy.id_konta}>
-        <h2>Cześć, {uzytkownicy.imie}!</h2>
-        <p>Typ włosa: {uzytkownicy.typ_wlosa.nazwa_typu}</p>
-        <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button>ANKIETA</button></Link><br/>
-            <button onClick={handleLogout}>Wyloguj</button>
-        </div>
+            <div key={uzytkownicy.id_konta} className='konto-main-workspace'>
+              <div className='greeting'>
+                <h2>Cześć, {uzytkownicy.imie}!</h2>
+              </div>
+
+              <div className='workspace-element'>
+                <p>Twój typ włosa: <b>{uzytkownicy.typ_wlosa.nazwa_typu}</b></p>
+              </div>
+
+              <div className='workspace-element'>
+                <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button className="button-ankieta">WYPEŁNIJ ANKIETĘ</button></Link><br/>  
+              </div>
+
+              <div className='workspace-element'>
+                <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
+              </div>
+            </div>
+            
     ))}
+
+
 
           </div>
         </div>

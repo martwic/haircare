@@ -102,8 +102,9 @@ a:hover{
   box-shadow: 0 4px 8px 0 $shadowColor, 0 6px 20px $shadowColor;
 }
 
-.button1:hover{
+.button1:hover, .button-logout:hover, .button-ankieta:hover{
   box-shadow: inset 0 0 8px 0 $shadowColor, 0 6px 20px 0 $shadowColor;
+  cursor: pointer;
 }
 
 .section{
@@ -401,6 +402,79 @@ td{
 }
 
 
+.greeting {
+  text-align: left;
+  margin-top: 0;
+  font-size: 3rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  height: 9rem;
+}
+
+.greeting h2{
+  font-size: 3rem;
+}
+
+.konto-main-workspace {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  height: 70%;
+  background-color: #ffffff84;
+  padding: 1em 3em;
+  margin: 1em;
+  //border-radius: 1em;
+}
+
+.workspace-element {
+  text-align: left;
+  font-size: 2rem;
+}
+
+.button-ankieta {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  color: #f3ecea;
+  background-color: #6F3F2D;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button-logout{
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  color: #f3ecea;
+  background-color: #6F3F2D;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin-top: 2rem;
+}
+
+.konto-favourites-workspace {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  height: 70%;
+  align-items: center;
+  background-color: #ffffff84;
+  padding: 1em 3em;
+  margin: 1em;
+  //border-radius: 1em;
+}
+
+
 @media screen and (max-width: 900px) {
   /* Styl dla urządzeń o szerokości mniejszej lub równej 768 pikseli */
 
@@ -457,7 +531,7 @@ td{
     width: 100%;
   }
 
-  .boxOfProducts, .boxOfOffers {
+  .boxOfProducts, .boxOfOffers, .konto-main-workspace {
     width: 90%;
     max-height: 100%;
     overflow: auto;
