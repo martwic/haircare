@@ -23,7 +23,7 @@ export default function Home({ products, session, userdata}) {
                 <form  name='searchBar'>
                   <div className='select-search'>
                     <div className='label-select-container'>
-                      <label htmlfor="typ-produktu" className="label-produkt">Kategorie produktu: </label>
+                      <label htmlFor="typ-produktu" className="label-produkt">Kategorie produktu: </label>
                       <select id="typ-produktu" name="typ-produktu" className="filter-select" onChange={(e) => setcategory(e.target.value)}>
                         <option value="">Wszystkie</option>
                         <option value="1">Szampon</option>
@@ -57,7 +57,6 @@ export default function Home({ products, session, userdata}) {
             </div>
             <table>
               <tbody>
-
                 {products.map((produkty) => (
                   <tr key={produkty.id_produktu}>
                     <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} /></td>
