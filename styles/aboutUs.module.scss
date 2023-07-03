@@ -1,3 +1,5 @@
+$fontColor: #6f3f2d;
+
 .imageContainer {
   display: flex;
   width: 100%;
@@ -24,6 +26,10 @@
   align-items: center;
   gap: 50px;
   margin-bottom: 50px;
+}
+
+.socialWrapper a{
+  color: $fontColor;
 }
 
 .wrapper {

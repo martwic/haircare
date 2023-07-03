@@ -2,11 +2,16 @@ import { prisma } from '/server/db/client'
 import Link from 'next/link';
 import React, { useState } from "react";
 import { getSession } from '@/server/auth';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import AddProduct from '@/components/addproduct';
+import DeleteProduct from '@/components/deleteproduct';
+import EditProduct from '@/components/editproduct';
 
-export default function Home({ products, session, userdata }) {
+
+export default function Home({ products, session, userdata}) {
   const [category, setcategory] = useState('');
   const [type, settype] = useState('');
-
 
   return (
     <div className='bodyLog'>
@@ -32,7 +37,7 @@ export default function Home({ products, session, userdata }) {
                       <label htmlfor="typ-wlosow" class="label-produkt">Typ włosów: </label>
                       <select id="typ-wlosow" name="typ-wlosow" className="filter-select" onChange={(e) => settype(e.target.value)}>
                         <option value="">Wszystkie</option>
-                        {session && userdata.map((uzytkownicy) => (
+                        {session && session.user.email!="admin@haircare.pl" && userdata.map((uzytkownicy) => (
                           <option key={uzytkownicy.typ_wlosa.id_typu} value={uzytkownicy.typ_wlosa.id_typu}>Twój typ</option>
                         ))}
                         <option value="1">Niskoporowate</option>
@@ -41,8 +46,13 @@ export default function Home({ products, session, userdata }) {
                       </select>
                     </div>
                     <Link href={`/products?category=${category}&type=${type}`}><input value="Szukaj" type="submit" id="search" className="button2" /></Link>
+
+                    
                 </div>
                 </form>
+                {session && session.user.email=="admin@haircare.pl" &&
+                      <AddProduct/>
+                    }
               </div>
             </div>
             <table>
@@ -53,6 +63,12 @@ export default function Home({ products, session, userdata }) {
                     <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} /></td>
                     <td><Link href={`/offers//${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
                     <td>{produkty.firma.nazwa_firmy}</td>
+                    {session && session.user.email=="admin@haircare.pl" &&
+                      <>
+                      <td><><DeleteProduct/></></td>
+                      <td><><EditProduct/></></td>
+                      </>
+                    }
                   </tr>
                 ))}
               </tbody>

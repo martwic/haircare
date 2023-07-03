@@ -17,8 +17,9 @@ export default function Home({ questions }) {
   const handleEvaluate = async (e) => {
     e.preventDefault();
     let totalPoints = 0;
-
+    let answersCount = 0;
     for (const [questionId, answerId] of Object.entries(selectedAnswers)) {
+      answersCount++
       const question = questions.find(
         (pytanie) => pytanie.id_pytania === parseInt(questionId)
       );
@@ -47,8 +48,11 @@ export default function Home({ questions }) {
     }
     let params = new URLSearchParams(location.search);
     const id_k = params.get('id');
-    const res = await axios.post('./api/db/updateHairData', {id_k, result} )
-    console.log(res.data)
+    if(answersCount==8){
+      const res = await axios.post('./api/db/updateHairData', {id_k, result} )
+      console.log(res.data)
+    }
+    console.log(answersCount)
     window.location = '/account'
   };
 
