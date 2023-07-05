@@ -21,7 +21,7 @@ const EditProduct = () => {
       <div>
          <button className="button2"  onClick={() => setIsOpen(true)}>Edytuj</button>
          <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
-            <h1>Wprowadź informacje o produkcie:</h1>
+            <h1>Edytuj informacje o produkcie:</h1>
             <form>
             <label htmlFor="fname">Nazwa:</label><br />
                 <input type="text" required value={productName} onChange={(e) => setname(e.target.value)} /><br /><br />

@@ -2,8 +2,6 @@ import { prisma } from '/server/db/client'
 import Link from 'next/link';
 import React, { useState } from "react";
 import { getSession } from '@/server/auth';
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 import AddProduct from '@/components/addproduct';
 import DeleteProduct from '@/components/deleteproduct';
 import EditProduct from '@/components/editproduct';
@@ -64,8 +62,8 @@ export default function Home({ products, session, userdata}) {
                     <td>{produkty.firma.nazwa_firmy}</td>
                     {session && session.user.email=="admin@haircare.pl" &&
                       <>
-                      <td><><DeleteProduct/></></td>
-                      <td><><EditProduct/></></td>
+                      <td><><DeleteProduct data={produkty.id_produktu}/></></td>
+                      <td><><EditProduct data={produkty.id_produktu}/></></td>
                       </>
                     }
                   </tr>
