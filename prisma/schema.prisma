@@ -86,6 +86,7 @@ model pytania {
 model typ {
   id_typu    Int        @id @default(autoincrement())
   nazwa_typu String     @db.VarChar(128)
+  nazwa_typu String     @db.VarChar(128)
   produkty   produkty[]
 }
 
