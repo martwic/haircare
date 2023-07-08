@@ -1,10 +1,22 @@
 import { prisma } from '/server/db/client';
-import { useState } from 'react';
-import Link from 'next/link';
-import Router from "next/router";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getSession } from '@/server/auth';
+import { useRouter } from 'next/dist/client/router';
+import EditQuestion from '@/components/editquestion';
+import EditAnswer from '@/components/editanswer';
 
-export default function Home({ questions }) {
+export default function Home({ questions, session }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/login');
+    }
+  }, [session]);
+  if (!session) {
+    return null;
+  }
   const [selectedAnswers, setSelectedAnswers] = useState({});
 
   const handleAnswerChange = (questionId, answerId) => {
@@ -55,7 +67,6 @@ export default function Home({ questions }) {
     console.log(answersCount)
     window.location = '/account'
   };
-
   return (
     <div className="bodyLog">
       <div className="mainLog">
@@ -67,8 +78,17 @@ export default function Home({ questions }) {
                   <tr key={pytanie.id_pytania}>
                     <td>
                       <h2>{pytanie.pytanie}</h2>
+                      {session && session.user.email=="admin@haircare.pl" &&
+                      <>
+                      <><EditQuestion data={{
+                            questionId: pytanie.id_pytania,
+                            question1: pytanie.pytanie,
+                      }}/><br/></>
+                      </>
+                    }
                       {pytanie.odpowiedzi.map((odpowiedz) => (
                         <label key={odpowiedz.id_odpowiedzi}>
+                          {session && session.user.email!="admin@haircare.pl" &&
                           <input
                             type="radio"
                             name={`quiz_${pytanie.id_pytania}`}
@@ -79,8 +99,14 @@ export default function Home({ questions }) {
                                 odpowiedz.id_odpowiedzi
                               )
                             }
-                          />
+                          />}
                           {odpowiedz.odpowiedz}
+                          {session && session.user.email=="admin@haircare.pl" &&
+                    <EditAnswer data={{
+                            answerId: odpowiedz.id_odpowiedzi,
+                            answer1: odpowiedz.odpowiedz,
+                      }}/>
+                    }
                           <br />
                         </label>
                       ))}
@@ -89,9 +115,10 @@ export default function Home({ questions }) {
                 ))}
                 <tr>
                     <td>
+                    {session && session.user.email!="admin@haircare.pl" &&
                     <form onSubmit={handleEvaluate} method='post'> 
                       <input type="submit" class="sbutton" value="OCEŃ"></input>
-                    </form>
+                    </form>}
                     </td>
                 </tr>
               </tbody>
@@ -103,20 +130,28 @@ export default function Home({ questions }) {
   );
 }
 
-export async function getServerSideProps() {
-  
+export async function getServerSideProps({ req }) {
+  const session = getSession(req);
   const questions = await prisma.pytania.findMany({
     where: {
       id_ankiety: 1,
     },
     include: {
-      odpowiedzi: true,
+      odpowiedzi: {
+        orderBy:{
+          id_odpowiedzi: 'asc',
+        }
+      }
     },
+    orderBy:{
+      id_pytania: 'asc',
+    }
   });
 
   return {
     props: {
       questions: JSON.parse(JSON.stringify(questions)),
+      session
     },
   };
 }

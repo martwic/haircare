@@ -5,6 +5,7 @@ import { getSession } from "../server/auth";
 import Router from "next/router";
 import { useRouter } from 'next/dist/client/router';
 import { prisma } from '@/server/db/client';
+import ReportGenerator from '@/components/accauntsReport';
 
 export default function Home({ session, userdata, accountType }) {
   console.log(accountType)
@@ -25,7 +26,6 @@ export default function Home({ session, userdata, accountType }) {
       </div>
     </div>
 */ 
-//else if(session.user.email=="admin@haircare.pl"){
 else if(accountType.typ_konta_id==1){
   return(
     <div>
@@ -37,7 +37,10 @@ else if(accountType.typ_konta_id==1){
                 <h2>Admin panel</h2>
               </div>
               <div className='workspace-element'>
+              <Link href={`/hairForm`}><button className="button-ankieta">Edycja ankiety</button></Link><br/>
+                <ReportGenerator/>
                 <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
+                
               </div>
             </div>
           </div>

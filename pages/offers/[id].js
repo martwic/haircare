@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { getSession } from '@/server/auth';
 import { prisma } from '@/server/db/client';
+import EditProduct from '@/components/editproduct';
 
 
 const handleSubmit = async (e) => {
@@ -28,7 +29,18 @@ export default function Home({products, amount, rate, session}) {
     <tbody>
     {products.map((produkty) => (
       <tr key={produkty.id_produktu}>
-        <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} />
+        <td>
+        {session && session.user.email=="admin@haircare.pl" &&
+        <><EditProduct data={{
+                            productId1: produkty.id_produktu,
+                            name1: produkty.nazwa,
+                            companyId1: produkty.firma.id_firmy,
+                            hairType1: produkty.typ_wlosa.id_typu,
+                            description1: produkty.opis,
+                            categoryId1: produkty.kategoria.id_kategorii,
+                            ingredients1: produkty.sklad,
+                      }}/></>}
+        <img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} />
         <h2>{produkty.nazwa}</h2>
         {produkty.firma.nazwa_firmy}
         <h4>Opis:</h4>
@@ -43,15 +55,15 @@ export default function Home({products, amount, rate, session}) {
         <div className="rate">
                                     <input type ="hidden" name="prodid" value=""/>
                                     <input type="radio" id="star5" name="rate" value="5" />
-                                    <label for="star5" title="text">5 stars</label>
+                                    <label htmlFor="star5" title="text">5 stars</label>
                                     <input type="radio" id="star4" name="rate" value="4" />
-                                    <label for="star4" title="text">4 stars</label>
+                                    <label htmlFor="star4" title="text">4 stars</label>
                                     <input type="radio" id="star3" name="rate" value="3" />
-                                    <label for="star3" title="text">3 stars</label>
+                                    <label htmlFor="star3" title="text">3 stars</label>
                                     <input type="radio" id="star2" name="rate" value="2" />
-                                    <label for="star2" title="text">2 stars</label>
+                                    <label htmlFor="star2" title="text">2 stars</label>
                                     <input type="radio" id="star1" name="rate" value="1" />
-                                    <label for="star1" title="text">1 star</label>
+                                    <label htmlFor="star1" title="text">1 star</label>
                                   </div>
                                   </div>
                                   </form>}
@@ -74,6 +86,8 @@ export async function getServerSideProps(context) {
   const products= await prisma.produkty.findMany({
     include: {
       firma: true, 
+      typ_wlosa:true,
+      kategoria: true,
     },
     where:{
       id_produktu: productId,

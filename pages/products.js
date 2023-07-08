@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { getSession } from '@/server/auth';
 import AddProduct from '@/components/addproduct';
 import DeleteProduct from '@/components/deleteproduct';
-import EditProduct from '@/components/editproduct';
 
 
 export default function Home({ products, session, userdata}) {
@@ -32,7 +31,7 @@ export default function Home({ products, session, userdata}) {
                       </select>
                     </div>
                     <div className='label-select-container' >
-                      <label htmlfor="typ-wlosow" class="label-produkt">Typ włosów: </label>
+                      <label htmlFor="typ-wlosow" className="label-produkt">Typ włosów: </label>
                       <select id="typ-wlosow" name="typ-wlosow" className="filter-select" onChange={(e) => settype(e.target.value)}>
                         <option value="">Wszystkie</option>
                         {session && session.user.email!="admin@haircare.pl" && userdata.map((uzytkownicy) => (
@@ -57,13 +56,12 @@ export default function Home({ products, session, userdata}) {
               <tbody>
                 {products.map((produkty) => (
                   <tr key={produkty.id_produktu}>
-                    <td><img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} /></td>
-                    <td><Link href={`/offers//${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
+                    <td><img alt="zdjprod" src={`/images/products/${produkty.id_produktu}.png`} /></td>
+                    <td><Link href={`/offers/${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
                     <td>{produkty.firma.nazwa_firmy}</td>
                     {session && session.user.email=="admin@haircare.pl" &&
                       <>
                       <td><><DeleteProduct data={produkty.id_produktu}/></></td>
-                      <td><><EditProduct data={produkty.id_produktu}/></></td>
                       </>
                     }
                   </tr>
@@ -106,6 +104,8 @@ else{
     const products = await prisma.produkty.findMany({
       include: {
         firma: true,
+        typ_wlosa:true,
+        kategoria:true,
       },
     })
   
