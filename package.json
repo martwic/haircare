@@ -18,13 +18,17 @@
     "cookie": "^0.5.0",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
     "next": "^13.2.4",
     "next-auth": "^4.22.1",
     "nookies": "^2.5.2",
+    "pdfkit": "^0.13.0",
+    "pdfkit-table": "^0.1.99",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "table": "^6.8.1"
   },
   "devDependencies": {
     "prisma": "^4.15.0",

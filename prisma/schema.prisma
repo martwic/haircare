@@ -1,11 +1,11 @@
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  url      = "postgres://default:0d7ywKRDWsTp@ep-billowing-art-492604-pooler.us-east-1.postgres.vercel-storage.com/verceldb?pgbouncer=true&connect_timeout=15"
 }
 
 model ankiety {
@@ -86,7 +86,6 @@ model pytania {
 model typ {
   id_typu    Int        @id @default(autoincrement())
   nazwa_typu String     @db.VarChar(128)
-  nazwa_typu String     @db.VarChar(128)
   produkty   produkty[]
 }
 
@@ -128,3 +127,4 @@ model wypelnienie_ankiet {
   ankiety             ankiety     @relation(fields: [ankieta_id], references: [id_ankiety], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk1")
   typ_wlosa           typ_wlosa   @relation(fields: [wynik], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk2")
 }
+

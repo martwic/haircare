@@ -7,7 +7,7 @@ const ReportGenerator = () => {
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [selectedInterval, setSelectedInterval] = useState('');
+    const [interval, setSelectedInterval] = useState('');
     const customStyles = {
         overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -24,7 +24,7 @@ const ReportGenerator = () => {
 
     const handleGenerateReport = async (e) => {
         e.preventDefault();
-        const res = await axios.post('./api/db/generateAccountsReport', { startDate, endDate, selectedInterval })
+        const res = await axios.post('./api/db/generateAccountsReport', { startDate, endDate, interval })
         location.reload()
     }
 
@@ -73,7 +73,7 @@ const ReportGenerator = () => {
                                 <td>
                                     <select
                                         id="interval"
-                                        value={selectedInterval}
+                                        value={interval}
                                         onChange={(e) => setSelectedInterval(e.target.value)}
                                     >
                                         <option value="">-- Wybierz --</option>
