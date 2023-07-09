@@ -7,7 +7,7 @@ const ReportGenerator = () => {
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [interval, setSelectedInterval] = useState('');
+    const [result, setResult] = useState('');
     const customStyles = {
         overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -24,20 +24,21 @@ const ReportGenerator = () => {
 
     const handleGenerateReport = async (e) => {
         e.preventDefault();
-        const res = await axios.post('./api/db/generateAccountsReport', { startDate, endDate, interval })
-        location.reload()
+        const res = await axios.post('./api/db/generateAccountsReport', { startDate, endDate })
+        setResult('Ilość kont powstałych w podanym zakresie czasu: '+res.data)
+        //location.reload()
     }
 
     return (
         <div>
-            <button className='button-logout' onClick={() => setIsOpen(true)}>Generuj raport dot. kont</button>
+            <button className='button-logout' onClick={() => setIsOpen(true)}>Pokaż zestawienie dot. kont</button>
             <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
                 <div>
                     <table>
                         <tbody>
                             <tr>
                                 <td>
-                                    <h1>Generator Raportów</h1>
+                                    <h1>Zestawienie dot. ilości nowych kont</h1>
                                 </td>
                             </tr>
                             <tr>
@@ -67,27 +68,14 @@ const ReportGenerator = () => {
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label htmlFor="interval">Podział raportu:</label>
-                                </td>
-                                <td>
-                                    <select
-                                        id="interval"
-                                        value={interval}
-                                        onChange={(e) => setSelectedInterval(e.target.value)}
-                                    >
-                                        <option value="">-- Wybierz --</option>
-                                        <option value="days">Dni</option>
-                                        <option value="weeks">Tygodnie</option>
-                                        <option value="months">Miesiące</option>
-                                        <option value="years">Lata</option>
-                                    </select>
+                                <td colSpan="2" align="center">
+                                    <button className="button2" onClick={handleGenerateReport}>Generuj</button>
+                                    <button className="button2" onClick={() => setIsOpen(false)}>Anuluj</button>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" align="center">
-                                    <button className="button2" onClick={handleGenerateReport}>Generuj raport</button>
-                                    <button className="button2" onClick={() => setIsOpen(false)}>Anuluj</button>
+                                <td colSpan="2" align="center">
+                                    <h3>{result}</h3>
                                 </td>
                             </tr>
                         </tbody>
