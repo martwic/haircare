@@ -25,7 +25,7 @@ const ReportGenerator = () => {
     const handleGenerateReport = async (e) => {
         e.preventDefault();
         const res = await axios.post('./api/db/generateAccountsReport', { startDate, endDate })
-        setResult('Ilość kont powstałych w podanym zakresie czasu: '+res.data)
+        setResult('Ilość kont powstałych w podanym zakresie czasu: ' + res.data)
         //location.reload()
     }
 

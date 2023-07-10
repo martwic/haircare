@@ -6,7 +6,7 @@ import AddProduct from '@/components/addproduct';
 import DeleteProduct from '@/components/deleteproduct';
 
 
-export default function Home({ products, session, userdata}) {
+export default function Home({ products, session, userdata }) {
   const [category, setcategory] = useState('');
   const [type, settype] = useState('');
 
@@ -17,7 +17,7 @@ export default function Home({ products, session, userdata}) {
           <div className="boxOfProducts">
             <div className='search-bar'>
               <div id="search-container">
-                <form  name='searchBar'>
+                <form name='searchBar'>
                   <div className='select-search'>
                     <div className='label-select-container'>
                       <label htmlFor="typ-produktu" className="label-produkt">Kategorie produktu: </label>
@@ -34,7 +34,7 @@ export default function Home({ products, session, userdata}) {
                       <label htmlFor="typ-wlosow" className="label-produkt">Typ włosów: </label>
                       <select id="typ-wlosow" name="typ-wlosow" className="filter-select" onChange={(e) => settype(e.target.value)}>
                         <option value="">Wszystkie</option>
-                        {session && session.user.email!="admin@haircare.pl" && userdata.map((uzytkownicy) => (
+                        {session && session.user.email != "admin@haircare.pl" && userdata.map((uzytkownicy) => (
                           <option key={uzytkownicy.typ_wlosa.id_typu} value={uzytkownicy.typ_wlosa.id_typu}>Twój typ</option>
                         ))}
                         <option value="1">Niskoporowate</option>
@@ -44,12 +44,12 @@ export default function Home({ products, session, userdata}) {
                     </div>
                     <Link href={`/products?category=${category}&type=${type}`}><input value="Szukaj" type="submit" id="search" className="button2" /></Link>
 
-                    
-                </div>
+
+                  </div>
                 </form>
-                {session && session.user.email=="admin@haircare.pl" &&
-                      <AddProduct/>
-                    }
+                {session && session.user.email == "admin@haircare.pl" &&
+                  <AddProduct />
+                }
               </div>
             </div>
             <table>
@@ -59,9 +59,9 @@ export default function Home({ products, session, userdata}) {
                     <td><img alt="zdjprod" src={`/images/products/${produkty.id_produktu}.png`} /></td>
                     <td><Link href={`/offers/${produkty.id_produktu}`} passHref><h2>{produkty.nazwa}</h2></Link></td>
                     <td>{produkty.firma.nazwa_firmy}</td>
-                    {session && session.user.email=="admin@haircare.pl" &&
+                    {session && session.user.email == "admin@haircare.pl" &&
                       <>
-                      <td><><DeleteProduct data={produkty.id_produktu}/></></td>
+                        <td><><DeleteProduct data={produkty.id_produktu} /></></td>
                       </>
                     }
                   </tr>
@@ -81,34 +81,34 @@ export async function getServerSideProps(context) {
   const { category, type } = context.query;
 
   var userdata;
-if(session){
-  const { user } = session;
-  userdata= await prisma.uzytkownicy.findFirst({
-    include: {
-      typ_wlosa: true, 
-    },
-    where:{
-      konta:{email: user.email,}
-    },
-  })
-}
-else{
-  userdata= await prisma.uzytkownicy.findFirst({
-    include: {
-      typ_wlosa: true, 
-    },
-  })
-}
-  
-  if(!type && !category){
+  if (session) {
+    const { user } = session;
+    userdata = await prisma.uzytkownicy.findFirst({
+      include: {
+        typ_wlosa: true,
+      },
+      where: {
+        konta: { email: user.email, }
+      },
+    })
+  }
+  else {
+    userdata = await prisma.uzytkownicy.findFirst({
+      include: {
+        typ_wlosa: true,
+      },
+    })
+  }
+
+  if (!type && !category) {
     const products = await prisma.produkty.findMany({
       include: {
         firma: true,
-        typ_wlosa:true,
-        kategoria:true,
+        typ_wlosa: true,
+        kategoria: true,
       },
     })
-  
+
     return {
       props: {
         products: JSON.parse(JSON.stringify(products)),
@@ -117,12 +117,12 @@ else{
       },
     }
   }
-  else if(!type && category){
+  else if (!type && category) {
     const products = await prisma.produkty.findMany({
       include: {
         firma: true,
       },
-      where:{
+      where: {
         kategoria_id: parseInt(category),
       }
     })
@@ -131,14 +131,15 @@ else{
         products: JSON.parse(JSON.stringify(products)),
         userdata: [JSON.parse(JSON.stringify(userdata))],
         session
-      },}
+      },
+    }
   }
-  else if(!category){
+  else if (!category) {
     const products = await prisma.produkty.findMany({
       include: {
         firma: true,
       },
-      where:{
+      where: {
         OR: [
           {
             typ_wlosa_id: parseInt(type),
@@ -152,15 +153,16 @@ else{
         products: JSON.parse(JSON.stringify(products)),
         userdata: [JSON.parse(JSON.stringify(userdata))],
         session
-      },}
+      },
+    }
   }
-  else{
+  else {
     const products = await prisma.produkty.findMany({
       include: {
         firma: true,
       },
-      where:{
-        kategoria_id:parseInt(category),
+      where: {
+        kategoria_id: parseInt(category),
         OR: [
           {
             typ_wlosa_id: parseInt(type),
@@ -174,8 +176,9 @@ else{
         products: JSON.parse(JSON.stringify(products)),
         userdata: [JSON.parse(JSON.stringify(userdata))],
         session
-      },}
+      },
+    }
   }
 
-  
+
 }

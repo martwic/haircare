@@ -16,75 +16,75 @@ export default function Home({ session, userdata, accountType, favourites }) {
     const router = useRouter();
     router.push('/login');
     return null;
-  } 
-/*
+  }
+  /*
+  
+  */
+  else if (accountType.typ_konta_id == 1) {
+    return (
+      <div>
+        <div className='bodyLog'>
+          <div className='mainLog'>
+            <div className="sectionLog">
+              <div className='konto-main-workspace'>
+                <div className='greeting'>
+                  <h2>Admin panel</h2>
+                </div>
+                <div className='workspace-element'>
+                  <Link href={`/hairForm`}><button className="button-ankieta">Edycja ankiety</button></Link><br />
+                  <ReportGenerator />
+                  <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
 
-*/ 
-else if(accountType.typ_konta_id==1){
-  return(
-    <div>
-      <div className='bodyLog'>
-        <div className='mainLog'>
-          <div className="sectionLog">
-            <div className='konto-main-workspace'>
-              <div className='greeting'>
-                <h2>Admin panel</h2>
-              </div>
-              <div className='workspace-element'>
-              <Link href={`/hairForm`}><button className="button-ankieta">Edycja ankiety</button></Link><br/>
-                <ReportGenerator/>
-                <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
-                
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-  );
-}
+
+    );
+  }
 
   return (
-<div>
+    <div>
       <div className='bodyLog'>
         <div className='mainLog'>
           <div className="sectionLog">
-                 
+
             {userdata.map((uzytkownicy) => (
-            <><div key={uzytkownicy.id_konta} className='konto-main-workspace'>
-            <div className='greeting'>
-              
-              <h2>Cześć, {uzytkownicy.imie}!</h2>
-            </div>
+              <><div key={uzytkownicy.id_konta} className='konto-main-workspace'>
+                <div className='greeting'>
 
-            <div className='workspace-element'>
-              <p>Twój typ włosa: <b>{uzytkownicy.typ_wlosa.nazwa_typu}</b></p>
-            </div>
+                  <h2>Cześć, {uzytkownicy.imie}!</h2>
+                </div>
 
-            <div className='workspace-element'>
-              <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button className="button-ankieta">WYPEŁNIJ ANKIETĘ</button></Link><br/>  
-            </div>
+                <div className='workspace-element'>
+                  <p>Twój typ włosa: <b>{uzytkownicy.typ_wlosa.nazwa_typu}</b></p>
+                </div>
 
-            <div className='workspace-element'>
-              <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
-            </div>
-          </div>
-              <div className='konto-favourites-workspace'>
-              <p className='workspace-element'><strong>Twoje ulubione produkty</strong></p>
-              <div className="produkty">
-              <table>
-              {favourites.map((ulubione) => (
-                
-                  <tr key={ulubione.id_ulubionego}>
-                    <td><img alt="zdjprod" src={`/images/products/${ulubione.produkty.id_produktu}.png`} /></td>
-                    <td><Link style={{ textDecoration: 'none', color: '#6F3F2D'}} href={`/offers/${ulubione.produkty.id_produktu}`} passHref><h2 >{ulubione.produkty.nazwa}</h2></Link></td>
-                </tr>
-                ))}
-                </table>
+                <div className='workspace-element'>
+                  <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button className="button-ankieta">WYPEŁNIJ ANKIETĘ</button></Link><br />
+                </div>
+
+                <div className='workspace-element'>
+                  <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
+                </div>
               </div>
-            </div></>
-    ))}
+                <div className='konto-favourites-workspace'>
+                  <p className='workspace-element'><strong>Twoje ulubione produkty</strong></p>
+                  <div className="produkty">
+                    <table>
+                      {favourites.map((ulubione) => (
+
+                        <tr key={ulubione.id_ulubionego}>
+                          <td><img alt="zdjprod" src={`/images/products/${ulubione.produkty.id_produktu}.png`} /></td>
+                          <td><Link style={{ textDecoration: 'none', color: '#6F3F2D' }} href={`/offers/${ulubione.produkty.id_produktu}`} passHref><h2 >{ulubione.produkty.nazwa}</h2></Link></td>
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
+                </div></>
+            ))}
 
 
 
@@ -98,7 +98,7 @@ else if(accountType.typ_konta_id==1){
 
 export async function getServerSideProps({ req }) {
   const session = getSession(req);
-  if(!session){
+  if (!session) {
     return {
       props: {
         session
@@ -106,34 +106,34 @@ export async function getServerSideProps({ req }) {
     }
   }
   const { user } = session;
-  const userdata= await prisma.uzytkownicy.findFirst({
+  const userdata = await prisma.uzytkownicy.findFirst({
     include: {
-      typ_wlosa: true, 
+      typ_wlosa: true,
     },
-    where:{
-      konta:{email: user.email,}
+    where: {
+      konta: { email: user.email, }
     },
   })
-  const accountType= await prisma.konta.findFirst({
+  const accountType = await prisma.konta.findFirst({
     select: {
-      typ_konta_id:true
+      typ_konta_id: true
     },
-    where:{
+    where: {
       email: user.email
     },
   })
-  var favourites=null
-  if(accountType.typ_konta_id==2){
+  var favourites = null
+  if (accountType.typ_konta_id == 2) {
     favourites = await prisma.ulubione.findMany({
-      include:{
-        produkty:true,
+      include: {
+        produkty: true,
       },
-      where:{
+      where: {
         id_konta: userdata.id_konta
       },
     })
   }
-  
+
   return {
     props: {
       userdata: [JSON.parse(JSON.stringify(userdata))],

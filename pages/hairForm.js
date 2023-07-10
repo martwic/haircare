@@ -35,24 +35,24 @@ export default function Home({ questions, session }) {
       const question = questions.find(
         (pytanie) => pytanie.id_pytania === parseInt(questionId)
       );
-  
+
       if (!question) {
         continue;
       }
-  
-      if (answerId%4==1) {
+
+      if (answerId % 4 == 1) {
         totalPoints += 3;
       }
-      else if (answerId%4==2) {
+      else if (answerId % 4 == 2) {
         totalPoints += 2;
       }
-      else if (answerId%4==3) {
+      else if (answerId % 4 == 3) {
         totalPoints += 1;
       }
     }
-  
+
     let result = "1";
-  
+
     if (totalPoints >= 16) {
       result = "3";
     } else if (totalPoints >= 8) {
@@ -60,8 +60,8 @@ export default function Home({ questions, session }) {
     }
     let params = new URLSearchParams(location.search);
     const id_k = params.get('id');
-    if(answersCount==8){
-      const res = await axios.post('./api/db/updateHairData', {id_k, result} )
+    if (answersCount == 8) {
+      const res = await axios.post('./api/db/updateHairData', { id_k, result })
       console.log(res.data)
     }
     console.log(answersCount)
@@ -78,35 +78,35 @@ export default function Home({ questions, session }) {
                   <tr key={pytanie.id_pytania}>
                     <td>
                       <h2>{pytanie.pytanie}</h2>
-                      {session && session.user.email=="admin@haircare.pl" &&
-                      <>
-                      <><EditQuestion data={{
+                      {session && session.user.email == "admin@haircare.pl" &&
+                        <>
+                          <><EditQuestion data={{
                             questionId: pytanie.id_pytania,
                             question1: pytanie.pytanie,
-                      }}/><br/></>
-                      </>
-                    }
+                          }} /><br /></>
+                        </>
+                      }
                       {pytanie.odpowiedzi.map((odpowiedz) => (
                         <label key={odpowiedz.id_odpowiedzi}>
-                          {session && session.user.email!="admin@haircare.pl" &&
-                          <input
-                            type="radio"
-                            name={`quiz_${pytanie.id_pytania}`}
-                            value={odpowiedz.id_odpowiedzi}
-                            onChange={() =>
-                              handleAnswerChange(
-                                pytanie.id_pytania,
-                                odpowiedz.id_odpowiedzi
-                              )
-                            }
-                          />}
+                          {session && session.user.email != "admin@haircare.pl" &&
+                            <input
+                              type="radio"
+                              name={`quiz_${pytanie.id_pytania}`}
+                              value={odpowiedz.id_odpowiedzi}
+                              onChange={() =>
+                                handleAnswerChange(
+                                  pytanie.id_pytania,
+                                  odpowiedz.id_odpowiedzi
+                                )
+                              }
+                            />}
                           {odpowiedz.odpowiedz}
-                          {session && session.user.email=="admin@haircare.pl" &&
-                    <EditAnswer data={{
-                            answerId: odpowiedz.id_odpowiedzi,
-                            answer1: odpowiedz.odpowiedz,
-                      }}/>
-                    }
+                          {session && session.user.email == "admin@haircare.pl" &&
+                            <EditAnswer data={{
+                              answerId: odpowiedz.id_odpowiedzi,
+                              answer1: odpowiedz.odpowiedz,
+                            }} />
+                          }
                           <br />
                         </label>
                       ))}
@@ -114,12 +114,12 @@ export default function Home({ questions, session }) {
                   </tr>
                 ))}
                 <tr>
-                    <td>
-                    {session && session.user.email!="admin@haircare.pl" &&
-                    <form onSubmit={handleEvaluate} method='post'> 
-                      <input type="submit" class="sbutton" value="OCEŃ"></input>
-                    </form>}
-                    </td>
+                  <td>
+                    {session && session.user.email != "admin@haircare.pl" &&
+                      <form onSubmit={handleEvaluate} method='post'>
+                        <input type="submit" class="sbutton" value="OCEŃ"></input>
+                      </form>}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -138,12 +138,12 @@ export async function getServerSideProps({ req }) {
     },
     include: {
       odpowiedzi: {
-        orderBy:{
+        orderBy: {
           id_odpowiedzi: 'asc',
         }
       }
     },
-    orderBy:{
+    orderBy: {
       id_pytania: 'asc',
     }
   });
