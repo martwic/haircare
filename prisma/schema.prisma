@@ -35,6 +35,7 @@ model konta {
   typ_konta_id     Int?         @default(2)
   data_rejestracji DateTime?    @default(now()) @db.Date
   typ_konta        typ_konta?   @relation(fields: [typ_konta_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "konta_fk0")
+  ulubione         ulubione[]
   uzytkownicy      uzytkownicy?
 }
 
@@ -61,18 +62,19 @@ model oferty {
 }
 
 model produkty {
-  id_produktu  Int       @id @default(autoincrement())
-  nazwa        String    @db.VarChar(128)
+  id_produktu  Int        @id @default(autoincrement())
+  nazwa        String     @db.VarChar(128)
   firma_id     Int
   typ_wlosa_id Int
   opis         String?
   kategoria_id Int
   typ_id       Int?
   sklad        String?
-  firma        firma     @relation(fields: [firma_id], references: [id_firmy], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk0")
-  typ_wlosa    typ_wlosa @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk1")
-  kategoria    kategoria @relation(fields: [kategoria_id], references: [id_kategorii], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk2")
-  typ          typ?      @relation(fields: [typ_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk3")
+  firma        firma      @relation(fields: [firma_id], references: [id_firmy], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk0")
+  typ_wlosa    typ_wlosa  @relation(fields: [typ_wlosa_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk1")
+  kategoria    kategoria  @relation(fields: [kategoria_id], references: [id_kategorii], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk2")
+  typ          typ?       @relation(fields: [typ_id], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "produkty_fk3")
+  ulubione     ulubione[]
 }
 
 model pytania {
@@ -128,3 +130,59 @@ model wypelnienie_ankiet {
   typ_wlosa           typ_wlosa   @relation(fields: [wynik], references: [id_typu], onDelete: NoAction, onUpdate: NoAction, map: "wypelnienie_ankiet_fk2")
 }
 
+model ulubione {
+  id_ulubionego Int       @id @default(autoincrement())
+  id_konta      Int?
+  id_produktu   Int?
+  konta         konta?    @relation(fields: [id_konta], references: [id_konta], onDelete: NoAction, onUpdate: NoAction)
+  produkty      produkty? @relation(fields: [id_produktu], references: [id_produktu], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view rejestracja_miesiecznie {
+  id          BigInt?
+  data_start  DateTime? @db.Timestamptz(6)
+  data_koniec DateTime? @db.Timestamptz(6)
+  miesiac     Float?
+  rok         Float?
+  count       BigInt?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view rejestracja_rocznie {
+  id          BigInt?
+  data_start  DateTime? @db.Timestamptz(6)
+  data_koniec DateTime? @db.Timestamptz(6)
+  rok         Float?
+  count       BigInt?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view rejestracja_dziennie {
+  id          BigInt?
+  data_start  DateTime? @db.Timestamptz(6)
+  data_koniec DateTime? @db.Timestamptz(6)
+  dzien       Float?
+  miesiac     Float?
+  rok         Float?
+  count       BigInt?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view rejestracja_tygodniowo {
+  id          BigInt?
+  data_start  DateTime? @db.Timestamptz(6)
+  data_koniec DateTime? @db.Timestamptz(6)
+  tydzien     Float?
+  miesiac     Float?
+  rok         Float?
+  count       BigInt?
+
+  @@ignore
+}

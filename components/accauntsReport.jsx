@@ -5,8 +5,8 @@ import axios from 'axios';
 const ReportGenerator = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(Date.now());
+    const [endDate, setEndDate] = useState(Date.now());
     const [result, setResult] = useState('');
     const customStyles = {
         overlay: {
@@ -51,6 +51,7 @@ const ReportGenerator = () => {
                                         id="start-date"
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -64,6 +65,7 @@ const ReportGenerator = () => {
                                         id="end-date"
                                         value={endDate}
                                         onChange={(e) => setEndDate(e.target.value)}
+                                        required
                                     />
                                 </td>
                             </tr>

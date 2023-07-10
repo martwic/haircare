@@ -366,10 +366,9 @@ td{
 .rate {
   float: left;
   height: 46px;
-  //padding: 0 10px;
-  //margin-left: 28vw;
   
 }
+
 .rate:not(:checked) > input {
   position:absolute;
   top:-9999px;
@@ -472,6 +471,36 @@ td{
   //border-radius: 1em;
 }
 
+.like-button {
+  display: inline-block;
+  position: relative;
+  font-size: 32px;
+  float: right;
+  cursor: pointer;
+  // border: 1px solid black;
+  &::before {
+    font-size: 3em;
+    color: grey;
+    content: '♥';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &::after {
+    font-size: 3em;
+    color: #6F3F2D;
+    content: '♥';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s;
+  }
+  &.liked::after {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
 
 @media screen and (max-width: 900px) {
   /* Styl dla urządzeń o szerokości mniejszej lub równej 768 pikseli */

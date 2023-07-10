@@ -44,7 +44,7 @@ export default function Home({ data, session }) {
                 <label htmlFor="fname">E-mail:</label><br />
                 <input type="email" required value={email} onChange={(e) => setemail(e.target.value)} /><br /><br />
                 <label htmlFor="lname">Hasło:</label><br />
-                <input type="password" minlength="8" required value={haslo} onChange={(e) => setpassword(e.target.value)} /><br /><br />
+                <input type="password" required value={haslo} onChange={(e) => setpassword(e.target.value)} /><br /><br />
                 <input type="submit" class="sbutton" value="Zaloguj" /><br /><br />
                 <Link href="/signin" passHref>
                   Nie masz konta? Zarejestruj się!
