@@ -50,7 +50,8 @@ export default function Home({ products, amount, rate, session, id, userId, fav 
                           categoryId1: produkty.kategoria.id_kategorii,
                           ingredients1: produkty.sklad,
                         }} /></>}
-                        <button className={`like-button ${isLiked ? "liked" : ""}`} onClick={handleLikeClick}></button><br/>
+                        {session && session.user.email != "admin@haircare.pl" &&
+                        <><button className={`like-button ${isLiked ? "liked" : ""}`} onClick={handleLikeClick}></button><br/></>}
                       <img alt="zdjprod" src={`/images/products//${produkty.id_produktu}.png`} />
                       <h2>{produkty.nazwa}</h2>
                       {produkty.firma.nazwa_firmy}
