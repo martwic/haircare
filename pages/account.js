@@ -54,6 +54,7 @@ else if(accountType.typ_konta_id==1){
             {userdata.map((uzytkownicy) => (
             <><div key={uzytkownicy.id_konta} className='konto-main-workspace'>
             <div className='greeting'>
+              
               <h2>Cześć, {uzytkownicy.imie}!</h2>
             </div>
 
@@ -121,14 +122,18 @@ export async function getServerSideProps({ req }) {
       email: user.email
     },
   })
-  const favourites = await prisma.ulubione.findMany({
-    include:{
-      produkty:true,
-    },
-    where:{
-      id_konta: userdata.id_konta
-    },
-  })
+  var favourites=null
+  if(accountType.typ_konta_id==2){
+    favourites = await prisma.ulubione.findMany({
+      include:{
+        produkty:true,
+      },
+      where:{
+        id_konta: userdata.id_konta
+      },
+    })
+  }
+  
   return {
     props: {
       userdata: [JSON.parse(JSON.stringify(userdata))],
