@@ -11,9 +11,10 @@ export default function Home({ products, amount, rate, session, id, userId, fav 
   if(fav>0){
     prevIsLiked=1
   }
-  console.log(prevIsLiked)
   const [isLiked, setIsLiked] = useState(prevIsLiked);
-  userId=userId.id_konta
+  if(session){
+    userId=userId.id_konta
+  }
   var rating=0
   const handleRating = (newRating) => {
     rating=newRating
@@ -111,7 +112,7 @@ export async function getServerSideProps(context) {
       produkt_id: productId,
     }
   })
-  var userId
+  var userId=null
   var fav=0
   if (!session) {}
   else{
