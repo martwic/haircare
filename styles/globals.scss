@@ -311,6 +311,16 @@ td{
   box-shadow: 0 0.4vw 0.8vw 0 $shadowColor, 0 0.6vw 2vw $shadowColor;
 }
 
+.produkty {
+  width: 100%;
+  overflow-x: auto;
+
+}
+.produkty img{
+  width: 15vw;
+}
+
+
 .label-produkt {
   display: block;
   text-align: left;
