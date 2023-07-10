@@ -7,8 +7,7 @@ import { useRouter } from 'next/dist/client/router';
 import { prisma } from '@/server/db/client';
 import ReportGenerator from '@/components/accauntsReport';
 
-export default function Home({ session, userdata, accountType }) {
-  console.log(accountType)
+export default function Home({ session, userdata, accountType, favourites }) {
   const handleLogout = async () => {
     await fetch('/api/logout'); // Wywołanie endpointu /api/logout
     Router.push("/login"); // Przekierowanie po wylogowaniu na stronę logowania
@@ -19,12 +18,7 @@ export default function Home({ session, userdata, accountType }) {
     return null;
   } 
 /*
-    <div className='konto-favourites-workspace'>
-      <p className='workspace-element'><strong>Twoje ulubione produkty</strong></p>
-      <div className="produkty">
-        tutaj produkty ktore sie ocenilo od najlepiej ocenianego sortowane 
-      </div>
-    </div>
+
 */ 
 else if(accountType.typ_konta_id==1){
   return(
@@ -58,24 +52,37 @@ else if(accountType.typ_konta_id==1){
           <div className="sectionLog">
                  
             {userdata.map((uzytkownicy) => (
-            <div key={uzytkownicy.id_konta} className='konto-main-workspace'>
-              <div className='greeting'>
-                <h2>Cześć, {uzytkownicy.imie}!</h2>
-              </div>
-
-              <div className='workspace-element'>
-                <p>Twój typ włosa: <b>{uzytkownicy.typ_wlosa.nazwa_typu}</b></p>
-              </div>
-
-              <div className='workspace-element'>
-                <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button className="button-ankieta">WYPEŁNIJ ANKIETĘ</button></Link><br/>  
-              </div>
-
-              <div className='workspace-element'>
-                <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
-              </div>
+            <><div key={uzytkownicy.id_konta} className='konto-main-workspace'>
+            <div className='greeting'>
+              <h2>Cześć, {uzytkownicy.imie}!</h2>
             </div>
-            
+
+            <div className='workspace-element'>
+              <p>Twój typ włosa: <b>{uzytkownicy.typ_wlosa.nazwa_typu}</b></p>
+            </div>
+
+            <div className='workspace-element'>
+              <Link href={`/hairForm?id=${uzytkownicy.id_konta}`}><button className="button-ankieta">WYPEŁNIJ ANKIETĘ</button></Link><br/>  
+            </div>
+
+            <div className='workspace-element'>
+              <button onClick={handleLogout} className='button-logout'>Wyloguj</button>
+            </div>
+          </div>
+              <div className='konto-favourites-workspace'>
+              <p className='workspace-element'><strong>Twoje ulubione produkty</strong></p>
+              <div className="produkty">
+              <table>
+              {favourites.map((ulubione) => (
+                
+                  <tr key={ulubione.id_ulubionego}>
+                    <td><img alt="zdjprod" src={`/images/products/${ulubione.produkty.id_produktu}.png`} /></td>
+                    <td><Link style={{ textDecoration: 'none', color: '#6F3F2D'}} href={`/offers/${ulubione.produkty.id_produktu}`} passHref><h2 >{ulubione.produkty.nazwa}</h2></Link></td>
+                </tr>
+                ))}
+                </table>
+              </div>
+            </div></>
     ))}
 
 
@@ -85,7 +92,7 @@ else if(accountType.typ_konta_id==1){
       </div>
     </div>
   );
-  
+
 }
 
 export async function getServerSideProps({ req }) {
@@ -114,11 +121,20 @@ export async function getServerSideProps({ req }) {
       email: user.email
     },
   })
+  const favourites = await prisma.ulubione.findMany({
+    include:{
+      produkty:true,
+    },
+    where:{
+      id_konta: userdata.id_konta
+    },
+  })
   return {
     props: {
       userdata: [JSON.parse(JSON.stringify(userdata))],
       session,
-      accountType
+      accountType,
+      favourites
     },
   }
 }

@@ -519,10 +519,12 @@ td{
     overflow: auto;
   }
 
-  .main {
+  .main, .sectionLog {
     flex-direction: column;
     align-items: center;
   }
+
+ 
 
   header {
     position: relative;
@@ -568,12 +570,30 @@ td{
     width: 100%;
   }
 
-  .boxOfProducts, .boxOfOffers, .konto-main-workspace {
+  .boxOfProducts, .boxOfOffers, .konto-main-workspace, .konto-favourites-workspace {
     width: 90%;
     max-height: 100%;
     overflow: auto;
     overflow-x: hidden;
     position: static;
+  }
+  .konto-main-workspace h2, .konto-main-workspace p {
+    font-size: 60%;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+  }
+  .konto-favourites-workspace strong, .konto-favourites-workspace p{
+    font-size: 1.2em;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+  }
+
+  .konto-favourites-workspace img{
+    width: 30vw;
   }
 
   .boxQuiz{
